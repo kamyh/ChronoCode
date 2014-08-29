@@ -4,6 +4,8 @@ public class Task {
 
 	public Task() {
 		this.setElapsedTime(0);
+		this.baseName = "";
+		this.name = "";
 	}
 
 	public int getElapsedTime() {
@@ -22,7 +24,16 @@ public class Task {
 		this.name = name;
 	}
 
+	public String getBaseName() {
+		return baseName;
+	}
+
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
+	}
+
 	private int elapsedTime;
 	private String name;
+	private String baseName;
 
 }

@@ -31,15 +31,16 @@ public class Manager {
 						pointer.getValue());
 				Psapi.GetModuleBaseNameW(process, null, buffer,
 						MAX_TITLE_LENGTH);
-				System.out.println("Active window process: "
-						+ Native.toString(buffer));
 
-				if (Native.toString(buffer).equals("eclipse.exe")) {
+				System.out.println(Native.toString(buffer) + ":"
+						+ this.tasks[0].getBaseName());
+
+				if (this.tasks[0].getBaseName().equals(Native.toString(buffer))) {
 					this.tasks[0]
 							.setElapsedTime(this.tasks[0].getElapsedTime() + 1);
 					System.out.println(this.tasks[0].getElapsedTime());
 				}
-				if (Native.toString(buffer).equals("chrome.exe")) {
+				if (this.tasks[1].getBaseName().equals(Native.toString(buffer))) {
 					this.tasks[1]
 							.setElapsedTime(this.tasks[1].getElapsedTime() + 1);
 					System.out.println(this.tasks[1].getElapsedTime());
@@ -55,6 +56,14 @@ public class Manager {
 		}
 	}
 
+	private void listAllAppRunning() {
+		// TODO
+	}
+
+	private void setWhiteList() {
+
+	}
+
 	private void init() {
 		this.tasks = new Task[2];
 
@@ -63,7 +72,10 @@ public class Manager {
 		}
 
 		this.tasks[0].setName("Eclipse");
+		this.tasks[0].setBaseName("eclipse.exe");
+
 		this.tasks[1].setName("Chrome");
+		this.tasks[1].setBaseName("chrome.exe");
 
 	}
 
