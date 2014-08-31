@@ -12,10 +12,15 @@ public class Manager extends JFrame {
 	public Manager() {
 		super("Chrono Code");
 		apperence();
+		control();
 
 		this.isStart = true;
 		init();
 		start();
+	}
+
+	private void control() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void apperence() {
@@ -25,6 +30,7 @@ public class Manager extends JFrame {
 	}
 
 	public void start() {
+		// TODO put in a thread
 		while (true) {
 			if (this.isStart) {
 				char[] buffer = new char[MAX_TITLE_LENGTH * 2];
@@ -43,17 +49,19 @@ public class Manager extends JFrame {
 				Psapi.GetModuleBaseNameW(process, null, buffer,
 						MAX_TITLE_LENGTH);
 
-				System.out.println(Native.toString(buffer) + ":"
-						+ this.tasks[0].getBaseName());
+				for (int i = 0; i < this.session.getTasks().size(); i++) {
 
-				for (int i = 0; i < this.tasks.length; i++) {
-
-					if (this.tasks[i].getBaseName().equals(
-							Native.toString(buffer))) {
-						this.tasks[i].setElapsedTime(this.tasks[i]
-								.getElapsedTime() + refreshTime);
-						System.out
-								.println(this.tasks[i].getElapsedTime() / 1000);
+					if (this.session.getTasks().get(i).getBaseName()
+							.equals(Native.toString(buffer))) {
+						this.session
+								.getTasks()
+								.get(i)
+								.setElapsedTime(
+										this.session.getTasks().get(i)
+												.getElapsedTime()
+												+ refreshTime);
+						System.out.println(this.session.getTasks().get(i)
+								.getElapsedTime() / 1000);
 					}
 				}
 
@@ -85,20 +93,7 @@ public class Manager extends JFrame {
 	}
 
 	private void init() {
-		this.tasks = new Task[3];
-
-		for (int i = 0; i < this.tasks.length; i++) {
-			this.tasks[i] = new Task();
-		}
-
-		this.tasks[0].setName("Eclipse");
-		this.tasks[0].setBaseName("eclipse.exe");
-
-		this.tasks[1].setName("Eclipse");
-		this.tasks[1].setBaseName("javaw.exe");
-
-		this.tasks[2].setName("Chrome");
-		this.tasks[2].setBaseName("chrome.exe");
+		this.session = new Session();
 
 	}
 
@@ -110,7 +105,7 @@ public class Manager extends JFrame {
 	private static final int MAX_TITLE_LENGTH = 1024;
 	private int refreshTime = 1000;
 	private boolean isStart;
-	private Task[] tasks;
+	private Session session;
 
 	static class Psapi {
 		static {
