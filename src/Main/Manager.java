@@ -1,9 +1,14 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,6 +20,8 @@ import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
+
+//TODO config.txt to blacklist some apps
 
 public class Manager extends JFrame {
 
@@ -67,19 +74,37 @@ public class Manager extends JFrame {
 
 	private void apperence() {
 
-		this.setVisible(true);
-		this.setSize(800, 600);
-
 		this.mainBorderLayout = new BorderLayout();
 
 		this.mainJPanel = new JPanel(this.mainBorderLayout);
 
 		this.add(this.mainJPanel);
 
-		// this.jComboBoxListProcess = new JComboBox();
-		// this.mainBorderLayout.addLayoutComponent(this.jComboBoxListProcess,
-		// "North");
+		this.jComboBoxListProcess = new JComboBox();
+		this.mainJPanel.add(this.jComboBoxListProcess, "North");
 
+		// this.mainJPanel.add(Box.createHorizontalGlue(), "North");
+		this.bVBoxNorth = Box.createHorizontalBox();
+		this.mainJPanel.add(this.bVBoxNorth, "North");
+
+		this.btnAddTask = new JButton("Add");
+
+		this.bVBoxNorth.add(this.jComboBoxListProcess);
+		this.bVBoxNorth.add(this.btnAddTask);
+		this.bVBoxNorth.add(Box.createHorizontalGlue());
+		this.bVBoxNorth.add(Box.createHorizontalGlue());
+		this.bVBoxNorth.add(Box.createHorizontalGlue());
+
+		this.setVisible(true);
+		this.setSize(800, 600);
+
+	}
+
+	private void populateJComboBoxListProcess() {
+		for (int i = 0; i < this.session.getAllProccess().size(); i++) {
+			this.jComboBoxListProcess.addItem(this.session.getAllProccess()
+					.get(i));
+		}
 	}
 
 	public void start() {
@@ -110,19 +135,30 @@ public class Manager extends JFrame {
 						Psapi.GetModuleBaseNameW(process, null, buffer,
 								MAX_TITLE_LENGTH);
 
-						for (int i = 0; i < session.getTasks().size(); i++) {
+						// for (int i = 0; i < session.getTasks().size(); i++) {
+						//
+						// if (session.getTasks().get(i).getBaseName()
+						// .equals(Native.toString(buffer))) {
+						// session.getTasks()
+						// .get(i)
+						// .setElapsedTime(
+						// session.getTasks().get(i)
+						// .getElapsedTime()
+						// + refreshTime);
+						// System.out.println(session.getTasks().get(i)
+						// .getElapsedTime() / 1000);
+						// }
+						// }
 
-							if (session.getTasks().get(i).getBaseName()
-									.equals(Native.toString(buffer))) {
-								session.getTasks()
-										.get(i)
-										.setElapsedTime(
-												session.getTasks().get(i)
-														.getElapsedTime()
-														+ refreshTime);
-								System.out.println(session.getTasks().get(i)
-										.getElapsedTime() / 1000);
-							}
+						Task currentTask;
+						currentTask = session.getTask(Native.toString(buffer));
+						
+						System.out.println("baseName: "+currentTask.getBaseName()+" elapsedTime: "+currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime()/1000);
+
+						if (currentTask != null) {
+							currentTask.getPeriods()
+									.get(currentTask.getPeriods().size() - 1)
+									.addTime(refreshTime);
 						}
 					}
 					try {
@@ -158,7 +194,7 @@ public class Manager extends JFrame {
 
 	private void init() {
 		this.session = new Session();
-
+		populateJComboBoxListProcess();
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -175,6 +211,8 @@ public class Manager extends JFrame {
 	private BorderLayout mainBorderLayout;
 	private JPanel mainJPanel;
 	private JComboBox jComboBoxListProcess;
+	private Box bVBoxNorth;
+	private JButton btnAddTask;
 
 	static class Psapi {
 		static {

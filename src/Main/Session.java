@@ -33,12 +33,33 @@ public class Session {
 		this.tasks.add(task_3);
 	}
 
+	public void addTask(String name, String baseName) {
+		// TODO
+	}
+
+	public Task getTask(String baseName) {
+		for (int i = 0; i < this.tasks.size(); i++) {
+			if (this.tasks.get(i).getBaseName().equals(baseName)) {
+				return this.tasks.get(i);
+			}
+		}
+		return null;
+	}
+
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
 
 	public void setTasks(ArrayList<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public ArrayList<String> getAllProccess() {
+		return allProccess;
+	}
+
+	public void setAllProccess(ArrayList<String> allProccess) {
+		this.allProccess = allProccess;
 	}
 
 	private ArrayList<Task> tasks = new ArrayList<Task>();

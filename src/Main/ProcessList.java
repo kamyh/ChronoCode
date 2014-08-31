@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.Tlhelp32;
@@ -28,6 +29,12 @@ public class ProcessList {
 		finally {
 			kernel32.CloseHandle(snapshot);
 		}
+
+		// remove duplicates in arrayList
+		HashSet hs = new HashSet();
+		hs.addAll(this.processList);
+		this.processList.clear();
+		this.processList.addAll(hs);
 	}
 
 	public ArrayList<String> getProcessList() {
@@ -40,9 +47,9 @@ public class ProcessList {
 
 	private ArrayList<String> processList = new ArrayList<String>();
 
-	public static void main(String[] args) {
-		ProcessList pl = new ProcessList();
-		System.out.println(pl.getProcessList());
-	}
+	// public static void main(String[] args) {
+	// ProcessList pl = new ProcessList();
+	// System.out.println(pl.getProcessList());
+	// }
 
 }
