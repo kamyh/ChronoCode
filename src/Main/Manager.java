@@ -232,8 +232,6 @@ public class Manager extends JFrame implements Serializable {
 	}
 
 	public void start() {
-		// TODO put in a thread
-
 		threadCheckFocus = new Thread(new Runnable() {
 
 			@Override
@@ -324,23 +322,23 @@ public class Manager extends JFrame implements Serializable {
 	}
 
 	private void load(String path) {
-		// TODO
+
 		try {
 			FileInputStream fis = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fis);
 			this.session = (Session) in.readObject();
+
+			for (int i = 0; i < this.session.getTasks().size(); i++) {
+				System.out
+						.println(this.session.getTasks().get(i).getBaseName());
+			}
+
+			// TODO put in UI
+
 			in.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}
-
-	private void listAllAppRunning() {
-		// TODO
-	}
-
-	private void setWhiteList() {
-		// TODO
 	}
 
 	private void init() {

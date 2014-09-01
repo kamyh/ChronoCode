@@ -1,8 +1,9 @@
 package Main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Task {
+public class Task implements Serializable{
 
 	public Task() {
 		this.setElapsedTime(0);

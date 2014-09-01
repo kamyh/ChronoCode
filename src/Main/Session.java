@@ -1,8 +1,9 @@
 package Main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Session {
+public class Session implements Serializable {
 	public Session() {
 
 		init();
@@ -34,7 +35,7 @@ public class Session {
 	}
 
 	public void addTask(String name, String baseName) {
-		this.tasks.add(new Task(name,baseName));
+		this.tasks.add(new Task(name, baseName));
 	}
 
 	public Task getTask(String baseName) {

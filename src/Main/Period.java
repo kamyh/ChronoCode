@@ -1,8 +1,9 @@
 package Main;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Period {
+public class Period implements Serializable {
 	public Period() {
 		this.startDate = new Date();
 		this.endDate = new Date();
