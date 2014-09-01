@@ -1,6 +1,0 @@
---eclipse.exe--
-Total Elapsed Time 24 sec
---javaw.exe--
-Total Elapsed Time 47 sec
-----------------------
-Total Elapsed Time 71 sec

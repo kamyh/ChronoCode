@@ -1,14 +1,21 @@
 package Main;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Writer {
 	public Writer(String path) {
 		this.path = path;
 		initFile();
+	}
+
+	public Writer() {
+
 	}
 
 	private void initFile() {
@@ -54,11 +61,47 @@ public class Writer {
 		}
 	}
 
+	public void getAllBlackListedProcess() {
+		BufferedReader br = null;
+
+		try {
+
+			String sCurrentLine;
+
+			br = new BufferedReader(new FileReader("./blacklist.txt"));
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				// System.out.println(sCurrentLine);
+				this.blacklist.add(sCurrentLine);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<String> getBlacklist() {
+		return blacklist;
+	}
+
+	public void setBlacklist(ArrayList<String> blacklist) {
+		this.blacklist = blacklist;
+	}
+
 	private String path;
+	private ArrayList<String> blacklist = new ArrayList<String>();
 
 	public static void main(String[] args) throws Exception {
 		Writer w = new Writer("./test.txt");
-		w.write("entry");
+		w.getAllBlackListedProcess();
+		System.out.println(w.getBlacklist());
 
 	}
 

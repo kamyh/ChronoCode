@@ -20,9 +20,18 @@ public class ProcessList {
 		Tlhelp32.PROCESSENTRY32.ByReference processEntry = new Tlhelp32.PROCESSENTRY32.ByReference();
 		WinNT.HANDLE snapshot = kernel32.CreateToolhelp32Snapshot(
 				Tlhelp32.TH32CS_SNAPPROCESS, new WinDef.DWORD(0));
+
+		Writer w = new Writer();
+		w.getAllBlackListedProcess();
+		ArrayList<String> blacklist = w.getBlacklist();
+
 		try {
 			while (kernel32.Process32Next(snapshot, processEntry)) {
-				this.processList.add(Native.toString(processEntry.szExeFile));
+				if (!blacklist
+						.contains(Native.toString(processEntry.szExeFile))) {
+					this.processList.add(Native
+							.toString(processEntry.szExeFile));
+				}
 			}
 
 		}

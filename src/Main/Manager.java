@@ -137,9 +137,11 @@ public class Manager extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				String baseName = (String) jComboBoxListProcess
 						.getSelectedItem();
-				addNewLineEntry(baseName);
-				session.addTask(baseName, baseName);
 
+				if (!session.isExsitingTask(baseName)) {
+					addNewLineEntry(baseName);
+					session.addTask(baseName, baseName);
+				}
 			}
 		});
 
@@ -357,6 +359,9 @@ public class Manager extends JFrame implements Serializable {
 
 	private void load(String path) {
 
+		this.session = new Session();
+		this.bVBoxCenter.removeAll();
+
 		try {
 			FileInputStream fis = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fis);
@@ -365,16 +370,20 @@ public class Manager extends JFrame implements Serializable {
 			for (int i = 0; i < this.session.getTasks().size(); i++) {
 				System.out
 						.println(this.session.getTasks().get(i).getBaseName());
-				this.addNewLineEntry(this.session.getTasks().get(i)
-						.getBaseName());
-			}
 
-			// TODO put in UI
+				if (this.session.isExsitingTask(this.session.getTasks().get(i)
+						.getBaseName())) {
+					this.addNewLineEntry(this.session.getTasks().get(i)
+							.getBaseName());
+				}
+			}
 
 			in.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+
+		isStart = false;
 	}
 
 	private void init() {

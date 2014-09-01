@@ -1,0 +1,6 @@
+AppleMobileDeviceHelper.exe
+AppleMobileDeviceService.exe
+AAM Updates Notifier.exe
+LCDClock.exe
+LCDCountdown.exe
+LCDYT.exe
