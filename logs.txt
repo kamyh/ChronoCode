@@ -1,0 +1,8 @@
+--eclipse.exe--
+Mon Sep 01 19:16:49 CEST 2014 - Mon Sep 01 19:16:49 CEST 2014 | 0 sec
+Total Elapsed Time 0 sec
+--javaw.exe--
+Mon Sep 01 19:16:53 CEST 2014 - Mon Sep 01 20:14:59 CEST 2014 | 9 sec
+Total Elapsed Time 9 sec
+----------------------
+Total Elapsed Time 9 sec

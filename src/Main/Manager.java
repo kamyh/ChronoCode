@@ -39,6 +39,7 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
 //TODO debug activation blacklist
+//TODO ask for overrides file confirmation
 
 public class Manager extends JFrame implements Serializable {
 
@@ -214,7 +215,7 @@ public class Manager extends JFrame implements Serializable {
 		return null;
 	}
 
-	private void printLogsToTxt() {
+	private void printLogsToTxtDetails() {
 
 		Writer w = new Writer(getPathFile());
 
@@ -242,7 +243,7 @@ public class Manager extends JFrame implements Serializable {
 		w.write("Total Elapsed Time " + totFullTime + " sec");
 	}
 
-	private void printLogsToTxtDetails() {
+	private void printLogsToTxt() {
 		Writer w = new Writer(getPathFile());
 
 		ArrayList<Task> tasks = this.session.getTasks();
@@ -295,8 +296,6 @@ public class Manager extends JFrame implements Serializable {
 		this.mainJPanel.add(this.bVBoxCenter);
 
 		this.setVisible(true);
-		// this.setSize(800, 600);
-		this.pack();
 
 	}
 

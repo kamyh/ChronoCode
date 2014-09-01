@@ -2,6 +2,7 @@ package Main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 import com.sun.jna.platform.win32.Kernel32;
@@ -19,7 +20,7 @@ public class ProcessList {
 
 	public void init(boolean blacklistActivated) {
 		processList = new ArrayList<String>();
-		
+
 		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class,
 				W32APIOptions.UNICODE_OPTIONS);
 
@@ -56,8 +57,13 @@ public class ProcessList {
 		this.processList.clear();
 		this.processList.addAll(hs);
 
-		Collections.sort(this.processList);
-		
+		Collections.sort(this.processList, new Comparator<String>() {
+			@Override
+			public int compare(String s1, String s2) {
+				return s1.compareToIgnoreCase(s2);
+			}
+		});
+
 		System.out.println(this.processList);
 	}
 
