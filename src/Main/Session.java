@@ -6,7 +6,7 @@ public class Session {
 	public Session() {
 
 		init();
-		initWithoutGUI();
+		// initWithoutGUI();
 	}
 
 	private void init() {
@@ -34,7 +34,7 @@ public class Session {
 	}
 
 	public void addTask(String name, String baseName) {
-		// TODO
+		this.tasks.add(new Task(name,baseName));
 	}
 
 	public Task getTask(String baseName) {
@@ -44,6 +44,15 @@ public class Session {
 			}
 		}
 		return null;
+	}
+
+	public boolean isExsitingTask(String string) {
+		for (int i = 0; i < this.tasks.size(); i++) {
+			if (this.tasks.get(i).getBaseName().equals(string)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public ArrayList<Task> getTasks() {

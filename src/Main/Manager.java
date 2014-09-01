@@ -1,10 +1,21 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,16 +34,17 @@ import com.sun.jna.ptr.PointerByReference;
 
 //TODO config.txt to blacklist some apps
 
-public class Manager extends JFrame {
+public class Manager extends JFrame implements Serializable {
 
 	public Manager() {
 		super("Chrono Code");
 		apperence();
 		control();
 
-		this.isStart = true;
+		this.isStart = false;
 		init();
 		start();
+		this.pack();
 	}
 
 	private void control() {
@@ -48,12 +60,14 @@ public class Manager extends JFrame {
 		menuBar.add(actionMenu);
 		JMenuItem newAction = new JMenuItem("New");
 		JMenuItem openAction = new JMenuItem("Open");
-		JMenuItem exitAction = new JMenuItem("Exit");
+		JMenuItem saveAction = new JMenuItem("Save");
 		JMenuItem startPauseAction = new JMenuItem("Start/Pause");
+		JMenuItem toTXTAction = new JMenuItem("logToTxt");
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
-		fileMenu.add(exitAction);
+		fileMenu.add(saveAction);
 		actionMenu.add(startPauseAction);
+		actionMenu.add(toTXTAction);
 
 		// TODO attributs action to menus
 		newAction.addActionListener(new ActionListener() {
@@ -62,11 +76,45 @@ public class Manager extends JFrame {
 			}
 		});
 
+		toTXTAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		startPauseAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				isStart = !isStart;
-				System.out.println("isStart: " + isStart);
+			}
+		});
+
+		saveAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				save("./save.chco");
+			}
+		});
+
+		openAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				load("./save.chco");
+			}
+		});
+
+		this.btnAddTask.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String baseName = (String) jComboBoxListProcess
+						.getSelectedItem();
+				addNewLineEntry(baseName);
+				session.addTask(baseName, baseName);
+
 			}
 		});
 
@@ -95,9 +143,44 @@ public class Manager extends JFrame {
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 
-		this.setVisible(true);
-		this.setSize(800, 600);
+		this.comboBoxWatchingProcess = new JComboBox();
 
+		this.bVBoxCenter = Box.createVerticalBox();
+
+		this.mainJPanel.add(this.bVBoxCenter);
+
+		this.setVisible(true);
+		// this.setSize(800, 600);
+		this.pack();
+
+	}
+
+	public void addNewLineEntry(String name) {
+
+		final Box newLine = Box.createHorizontalBox();
+
+		Label lName = new Label("Name: " + name);
+		Label lElapsedTime = new Label("Elapsed Time: " + 0);
+		JButton btnRemoveLine = new JButton("Remove");
+
+		btnRemoveLine.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				newLine.hide();
+				pack();
+
+			}
+		});
+
+		newLine.add(lName);
+		// newLine.add(lElapsedTime);
+		newLine.add(Box.createHorizontalGlue());
+
+		newLine.add(btnRemoveLine);
+
+		this.bVBoxCenter.add(newLine);
+		this.pack();
 	}
 
 	private void populateJComboBoxListProcess() {
@@ -114,9 +197,8 @@ public class Manager extends JFrame {
 
 			@Override
 			public void run() {
-
+				Task prevTask = null;
 				while (true) {
-					System.out.println("isStart From Thread:" + isStart);
 					if (isStart) {
 						char[] buffer = new char[MAX_TITLE_LENGTH * 2];
 						User32DLL.GetWindowTextW(
@@ -135,38 +217,50 @@ public class Manager extends JFrame {
 						Psapi.GetModuleBaseNameW(process, null, buffer,
 								MAX_TITLE_LENGTH);
 
-						// for (int i = 0; i < session.getTasks().size(); i++) {
-						//
-						// if (session.getTasks().get(i).getBaseName()
-						// .equals(Native.toString(buffer))) {
-						// session.getTasks()
-						// .get(i)
-						// .setElapsedTime(
-						// session.getTasks().get(i)
-						// .getElapsedTime()
-						// + refreshTime);
-						// System.out.println(session.getTasks().get(i)
-						// .getElapsedTime() / 1000);
-						// }
-						// }
-
 						Task currentTask;
-						currentTask = session.getTask(Native.toString(buffer));
-						
-						System.out.println("baseName: "+currentTask.getBaseName()+" elapsedTime: "+currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime()/1000);
 
-						if (currentTask != null) {
-							currentTask.getPeriods()
-									.get(currentTask.getPeriods().size() - 1)
-									.addTime(refreshTime);
+						// TODO if no task
+						if (session.isExsitingTask(Native.toString(buffer))) {
+							currentTask = session.getTask(Native
+									.toString(buffer));
+
+							if (prevTask != null) {
+								if (currentTask != prevTask) {
+									prevTask.getLastPeriod().setEndDate();
+									currentTask.newEntry();
+								}
+							}
+
+							System.out.println("Numbers of periods: "
+									+ currentTask.getPeriods().size());
+
+							System.out.println("baseName: "
+									+ currentTask.getBaseName()
+									+ " elapsedTime: "
+									+ currentTask
+											.getPeriods()
+											.get(currentTask.getPeriods()
+													.size() - 1)
+											.getElapsedTime() / 1000);
+
+							if (currentTask != null) {
+
+								currentTask
+										.getPeriods()
+										.get(currentTask.getPeriods().size() - 1)
+										.addTime(refreshTime);
+							}
+							prevTask = currentTask;
+						} else {
+							System.out.println("No task !");
 						}
-					}
-					try {
-						Thread.sleep(refreshTime);
-					} catch (InterruptedException e) {
-						System.err
-								.println("Impossible to sleep. too many noises !");
-						e.printStackTrace();
+						try {
+							Thread.sleep(refreshTime);
+						} catch (InterruptedException e) {
+							System.err
+									.println("Impossible to sleep. too many noises !");
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -177,11 +271,27 @@ public class Manager extends JFrame {
 	}
 
 	private void save(String path) {
-		// TODO
+		try {
+			// Serialize data object to a file
+			ObjectOutputStream out = new ObjectOutputStream(
+					new FileOutputStream(path));
+			out.writeObject(this.session);
+			out.close();
+
+		} catch (IOException e) {
+		}
 	}
 
 	private void load(String path) {
 		// TODO
+		try {
+			FileInputStream fis = new FileInputStream(path);
+			ObjectInputStream in = new ObjectInputStream(fis);
+			this.session = (Session) in.readObject();
+			in.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	private void listAllAppRunning() {
@@ -213,6 +323,9 @@ public class Manager extends JFrame {
 	private JComboBox jComboBoxListProcess;
 	private Box bVBoxNorth;
 	private JButton btnAddTask;
+	private Box bVBoxCenter;
+	private JComboBox comboBoxWatchingProcess;
+	private JButton btnRemove;
 
 	static class Psapi {
 		static {
