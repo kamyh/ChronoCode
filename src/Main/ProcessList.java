@@ -13,7 +13,13 @@ import com.sun.jna.Native;
 
 public class ProcessList {
 
-	public ProcessList() {
+	public ProcessList(boolean blacklistActivated) {
+		init(blacklistActivated);
+	}
+
+	public void init(boolean blacklistActivated) {
+		processList = new ArrayList<String>();
+		
 		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class,
 				W32APIOptions.UNICODE_OPTIONS);
 
@@ -23,7 +29,11 @@ public class ProcessList {
 
 		Writer w = new Writer();
 		w.getAllBlackListedProcess();
-		ArrayList<String> blacklist = w.getBlacklist();
+		ArrayList<String> blacklist = new ArrayList<String>();
+
+		if (blacklistActivated) {
+			blacklist = w.getBlacklist();
+		}
 
 		try {
 			while (kernel32.Process32Next(snapshot, processEntry)) {
@@ -47,6 +57,8 @@ public class ProcessList {
 		this.processList.addAll(hs);
 
 		Collections.sort(this.processList);
+		
+		System.out.println(this.processList);
 	}
 
 	public ArrayList<String> getProcessList() {
@@ -57,11 +69,6 @@ public class ProcessList {
 		this.processList = processList;
 	}
 
-	private ArrayList<String> processList = new ArrayList<String>();
-
-	// public static void main(String[] args) {
-	// ProcessList pl = new ProcessList();
-	// System.out.println(pl.getProcessList());
-	// }
+	private ArrayList<String> processList;
 
 }

@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Session implements Serializable {
-	public Session() {
+	public Session(boolean b) {
 
-		init();
+		init(b);
 		// initWithoutGUI();
 	}
 
-	private void init() {
-		ProcessList pL = new ProcessList();
+	private void init(boolean b) {
+		ProcessList pL = new ProcessList(b);
 		this.allProccess = pL.getProcessList();
 		System.out.println(this.allProccess);
 	}
@@ -56,6 +56,15 @@ public class Session implements Serializable {
 		return false;
 	}
 
+	public void removeTask(String s) {
+		this.allProccess.remove(s);
+		for (int i = 0; i < this.tasks.size(); i++) {
+			if (this.tasks.get(i).getBaseName().equals(s)) {
+				this.tasks.remove(i);
+			}
+		}
+	}
+
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
@@ -70,6 +79,12 @@ public class Session implements Serializable {
 
 	public void setAllProccess(ArrayList<String> allProccess) {
 		this.allProccess = allProccess;
+	}
+
+	public void resetProcessList(boolean b) {
+		ProcessList pL = new ProcessList(b);
+		pL.init(b);
+		this.allProccess = pL.getProcessList();
 	}
 
 	private ArrayList<Task> tasks = new ArrayList<Task>();

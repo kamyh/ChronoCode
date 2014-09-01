@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -32,7 +33,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
-//TODO config.txt to blacklist some apps
+//TODO debug activation blcklist
 
 public class Manager extends JFrame implements Serializable {
 
@@ -56,8 +57,10 @@ public class Manager extends JFrame implements Serializable {
 		// Define and add two drop down menu to the menubar
 		JMenu fileMenu = new JMenu("File");
 		JMenu actionMenu = new JMenu("Actions");
+		JMenu OptionsMenu = new JMenu("Options");
 		menuBar.add(fileMenu);
 		menuBar.add(actionMenu);
+		menuBar.add(OptionsMenu);
 		JMenuItem newAction = new JMenuItem("New");
 		JMenuItem openAction = new JMenuItem("Open");
 		JMenuItem saveAction = new JMenuItem("Save");
@@ -65,6 +68,8 @@ public class Manager extends JFrame implements Serializable {
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
 		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
 		JMenuItem stopAction = new JMenuItem("stop");
+		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
+		BlacklistMenuChkBox.setSelected(true);
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
@@ -72,11 +77,27 @@ public class Manager extends JFrame implements Serializable {
 		actionMenu.add(toTXTAction);
 		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
+		OptionsMenu.add(BlacklistMenuChkBox);
 
 		// TODO attributs action to menus
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("You have clicked on the new action");
+			}
+		});
+
+		BlacklistMenuChkBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				session.resetProcessList(BlacklistMenuChkBox.isSelected());
+				jComboBoxListProcess.removeAll();
+				jComboBoxListProcess = new JComboBox<>();
+
+				populateJComboBoxListProcess();
+				jComboBoxListProcess.revalidate();
+
 			}
 		});
 
@@ -232,11 +253,13 @@ public class Manager extends JFrame implements Serializable {
 
 	}
 
-	public void addNewLineEntry(String name) {
+	public void addNewLineEntry(String name1) {
 
 		final Box newLine = Box.createHorizontalBox();
 
-		Label lName = new Label("Name: " + name);
+		final String name = name1;
+
+		Label lName = new Label("Name: " + name1);
 		Label lElapsedTime = new Label("Elapsed Time: " + 0);
 		JButton btnRemoveLine = new JButton("Remove");
 
@@ -245,6 +268,7 @@ public class Manager extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				newLine.hide();
+				session.removeTask(name);;
 				pack();
 
 			}
@@ -359,7 +383,7 @@ public class Manager extends JFrame implements Serializable {
 
 	private void load(String path) {
 
-		this.session = new Session();
+		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
 		this.bVBoxCenter.removeAll();
 
 		try {
@@ -387,7 +411,7 @@ public class Manager extends JFrame implements Serializable {
 	}
 
 	private void init() {
-		this.session = new Session();
+		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
 		populateJComboBoxListProcess();
 	}
 
@@ -411,6 +435,7 @@ public class Manager extends JFrame implements Serializable {
 	private JComboBox comboBoxWatchingProcess;
 	private JButton btnRemove;
 	private Task currentTask = null;
+	private JCheckBoxMenuItem BlacklistMenuChkBox;
 
 	static class Psapi {
 		static {
