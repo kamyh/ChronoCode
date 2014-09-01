@@ -63,16 +63,27 @@ public class Manager extends JFrame implements Serializable {
 		JMenuItem saveAction = new JMenuItem("Save");
 		JMenuItem startPauseAction = new JMenuItem("Start/Pause");
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
+		JMenuItem stopAction = new JMenuItem("stop");
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		actionMenu.add(startPauseAction);
 		actionMenu.add(toTXTAction);
+		actionMenu.add(stopAction);
 
 		// TODO attributs action to menus
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("You have clicked on the new action");
+			}
+		});
+
+		stopAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO PROPERLY STOP
+
 			}
 		});
 
@@ -87,8 +98,11 @@ public class Manager extends JFrame implements Serializable {
 
 		startPauseAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				if (isStart && currentTask != null) {
+					currentTask.getLastPeriod().setEndDate();
+				}
 				isStart = !isStart;
+
 			}
 		});
 
@@ -125,16 +139,26 @@ public class Manager extends JFrame implements Serializable {
 
 		ArrayList<Task> tasks = this.session.getTasks();
 
+		int totFullTime = 0;
+
 		for (int i = 0; i < tasks.size(); i++) {
+			int totTime = 0;
 			w.write("--" + tasks.get(i).getBaseName() + "--");
 			ArrayList<Period> periods = tasks.get(i).getPeriods();
 			for (int j = 0; j < periods.size(); j++) {
 				String lineToAdd = periods.get(j).getStartDate().toString()
 						+ " - " + periods.get(j).getEndDate().toString()
-						+ " | " + periods.get(j).getElapsedTime() / 1000;
+						+ " | " + periods.get(j).getElapsedTime() / 1000
+						+ " sec";
 				w.write(lineToAdd);
+				totTime += periods.get(j).getElapsedTime() / 1000;
+
 			}
+			w.write("Total Elapsed Time " + totTime + " sec");
+			totFullTime += totTime;
 		}
+		w.write("----------------------");
+		w.write("Total Elapsed Time " + totFullTime + " sec");
 	}
 
 	private void apperence() {
@@ -234,8 +258,6 @@ public class Manager extends JFrame implements Serializable {
 						Psapi.GetModuleBaseNameW(process, null, buffer,
 								MAX_TITLE_LENGTH);
 
-						Task currentTask;
-
 						// TODO if no task
 						if (session.isExsitingTask(Native.toString(buffer))) {
 							currentTask = session.getTask(Native
@@ -244,7 +266,9 @@ public class Manager extends JFrame implements Serializable {
 							if (prevTask != null) {
 								if (currentTask != prevTask) {
 									prevTask.getLastPeriod().setEndDate();
-									currentTask.newEntry();
+									if (currentTask.getPeriods().size() > 0) {
+										currentTask.newEntry();
+									}
 								}
 							}
 
@@ -343,6 +367,7 @@ public class Manager extends JFrame implements Serializable {
 	private Box bVBoxCenter;
 	private JComboBox comboBoxWatchingProcess;
 	private JButton btnRemove;
+	private Task currentTask = null;
 
 	static class Psapi {
 		static {

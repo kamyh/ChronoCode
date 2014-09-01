@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 import com.sun.jna.platform.win32.Kernel32;
@@ -35,6 +36,8 @@ public class ProcessList {
 		hs.addAll(this.processList);
 		this.processList.clear();
 		this.processList.addAll(hs);
+
+		Collections.sort(this.processList);
 	}
 
 	public ArrayList<String> getProcessList() {
