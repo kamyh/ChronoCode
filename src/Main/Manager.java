@@ -331,6 +331,8 @@ public class Manager extends JFrame implements Serializable {
 			for (int i = 0; i < this.session.getTasks().size(); i++) {
 				System.out
 						.println(this.session.getTasks().get(i).getBaseName());
+				this.addNewLineEntry(this.session.getTasks().get(i)
+						.getBaseName());
 			}
 
 			// TODO put in UI
