@@ -80,7 +80,7 @@ public class Manager extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				printLogsToTxt();
 
 			}
 		});
@@ -118,6 +118,23 @@ public class Manager extends JFrame implements Serializable {
 			}
 		});
 
+	}
+
+	private void printLogsToTxt() {
+		Writer w = new Writer("./test.txt");
+
+		ArrayList<Task> tasks = this.session.getTasks();
+
+		for (int i = 0; i < tasks.size(); i++) {
+			w.write("--" + tasks.get(i).getBaseName() + "--");
+			ArrayList<Period> periods = tasks.get(i).getPeriods();
+			for (int j = 0; j < periods.size(); j++) {
+				String lineToAdd = periods.get(j).getStartDate().toString()
+						+ " - " + periods.get(j).getEndDate().toString()
+						+ " | " + periods.get(j).getElapsedTime() / 1000;
+				w.write(lineToAdd);
+			}
+		}
 	}
 
 	private void apperence() {
