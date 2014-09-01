@@ -8,6 +8,7 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,11 +23,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -140,15 +143,37 @@ public class Manager extends JFrame implements Serializable {
 
 		saveAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Specify a file to save");
+				fileChooser.setCurrentDirectory(new File("./"));
+				fileChooser.setSelectedFile(new File("save.chco"));
+				fileChooser.setFileFilter(new FileNameExtensionFilter(
+						"ChronoCode file", "chco"));
 
-				save("./save.chco");
+				int userSelection = fileChooser.showSaveDialog(Manager.this);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+					File fileToSave = fileChooser.getSelectedFile();
+					save(fileToSave.getAbsolutePath());
+				}
+
 			}
 		});
 
 		openAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				load("./save.chco");
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new File("./"));
+				chooser.setSelectedFile(new File("save.chco"));
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"ChronoCode file", "chco");
+				chooser.setFileFilter(filter);
+				int returnVal = chooser.showOpenDialog(Manager.this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					load(chooser.getSelectedFile().getName());
+				}
+
 			}
 		});
 
@@ -168,8 +193,27 @@ public class Manager extends JFrame implements Serializable {
 
 	}
 
+	private String getPathFile() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");
+		fileChooser.setCurrentDirectory(new File("./"));
+		fileChooser.setSelectedFile(new File("logs.txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Fichier txt",
+				"txt"));
+
+		int userSelection = fileChooser.showSaveDialog(this);
+
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			File fileToSave = fileChooser.getSelectedFile();
+			System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+			return fileToSave.getAbsolutePath();
+		}
+		return null;
+	}
+
 	private void printLogsToTxt() {
-		Writer w = new Writer("./test.txt");
+
+		Writer w = new Writer(getPathFile());
 
 		ArrayList<Task> tasks = this.session.getTasks();
 
@@ -196,7 +240,7 @@ public class Manager extends JFrame implements Serializable {
 	}
 
 	private void printLogsToTxtDetails() {
-		Writer w = new Writer("./test.txt");
+		Writer w = new Writer(getPathFile());
 
 		ArrayList<Task> tasks = this.session.getTasks();
 
@@ -268,7 +312,8 @@ public class Manager extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				newLine.hide();
-				session.removeTask(name);;
+				session.removeTask(name);
+				;
 				pack();
 
 			}

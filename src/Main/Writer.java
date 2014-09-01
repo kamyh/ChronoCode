@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Writer {
 	public Writer(String path) {
+		
 		this.path = path;
 		initFile();
 	}
