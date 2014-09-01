@@ -1,13 +1,6 @@
 --eclipse.exe--
-Mon Sep 01 14:05:22 CEST 2014 - Mon Sep 01 14:05:28 CEST 2014 | 5
-Mon Sep 01 14:05:38 CEST 2014 - Mon Sep 01 14:05:44 CEST 2014 | 6
-Mon Sep 01 14:05:47 CEST 2014 - Mon Sep 01 14:05:50 CEST 2014 | 3
-Total Elapsed Time 14
+Total Elapsed Time 24 sec
 --javaw.exe--
-Mon Sep 01 14:05:09 CEST 2014 - Mon Sep 01 14:05:22 CEST 2014 | 9
-Mon Sep 01 14:05:28 CEST 2014 - Mon Sep 01 14:05:38 CEST 2014 | 10
-Mon Sep 01 14:05:44 CEST 2014 - Mon Sep 01 14:05:47 CEST 2014 | 3
-Mon Sep 01 14:05:50 CEST 2014 - Mon Sep 01 14:05:52 CEST 2014 | 3
-Total Elapsed Time 25
---------
-Total Elapsed Time 39
+Total Elapsed Time 47 sec
+----------------------
+Total Elapsed Time 71 sec

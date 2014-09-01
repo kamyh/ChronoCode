@@ -63,12 +63,14 @@ public class Manager extends JFrame implements Serializable {
 		JMenuItem saveAction = new JMenuItem("Save");
 		JMenuItem startPauseAction = new JMenuItem("Start/Pause");
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
+		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
 		JMenuItem stopAction = new JMenuItem("stop");
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		actionMenu.add(startPauseAction);
 		actionMenu.add(toTXTAction);
+		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
 
 		// TODO attributs action to menus
@@ -83,6 +85,15 @@ public class Manager extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO PROPERLY STOP
+
+			}
+		});
+
+		toTXTDetailsAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				printLogsToTxtDetails();
 
 			}
 		});
@@ -151,6 +162,29 @@ public class Manager extends JFrame implements Serializable {
 						+ " | " + periods.get(j).getElapsedTime() / 1000
 						+ " sec";
 				w.write(lineToAdd);
+				totTime += periods.get(j).getElapsedTime() / 1000;
+
+			}
+			w.write("Total Elapsed Time " + totTime + " sec");
+			totFullTime += totTime;
+		}
+		w.write("----------------------");
+		w.write("Total Elapsed Time " + totFullTime + " sec");
+	}
+
+	private void printLogsToTxtDetails() {
+		Writer w = new Writer("./test.txt");
+
+		ArrayList<Task> tasks = this.session.getTasks();
+
+		int totFullTime = 0;
+
+		for (int i = 0; i < tasks.size(); i++) {
+			int totTime = 0;
+			w.write("--" + tasks.get(i).getBaseName() + "--");
+			ArrayList<Period> periods = tasks.get(i).getPeriods();
+			for (int j = 0; j < periods.size(); j++) {
+
 				totTime += periods.get(j).getElapsedTime() / 1000;
 
 			}
