@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +21,7 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -36,12 +38,14 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
-//TODO debug activation blcklist
+//TODO debug activation blacklist
 
 public class Manager extends JFrame implements Serializable {
 
 	public Manager() {
 		super("Chrono Code");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				getClass().getResource("/img/icon.png")));
 		apperence();
 		control();
 
@@ -82,7 +86,6 @@ public class Manager extends JFrame implements Serializable {
 		actionMenu.add(stopAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
 
-		// TODO attributs action to menus
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("You have clicked on the new action");
@@ -361,7 +364,6 @@ public class Manager extends JFrame implements Serializable {
 						Psapi.GetModuleBaseNameW(process, null, buffer,
 								MAX_TITLE_LENGTH);
 
-						// TODO if no task
 						if (session.isExsitingTask(Native.toString(buffer))) {
 							currentTask = session.getTask(Native
 									.toString(buffer));
