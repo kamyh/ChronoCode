@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -40,6 +41,9 @@ import com.sun.jna.ptr.PointerByReference;
 
 //TODO debug activation blacklist
 //TODO ask for overrides file confirmation
+//TODO open soft middle screen
+//TODO open about middle soft
+//TODO improve aboutDialog
 
 public class Manager extends JFrame implements Serializable {
 
@@ -66,9 +70,11 @@ public class Manager extends JFrame implements Serializable {
 		JMenu fileMenu = new JMenu("File");
 		JMenu actionMenu = new JMenu("Actions");
 		JMenu OptionsMenu = new JMenu("Options");
+		JMenu moreMenu = new JMenu("More");
 		menuBar.add(fileMenu);
 		menuBar.add(actionMenu);
 		menuBar.add(OptionsMenu);
+		menuBar.add(moreMenu);
 		JMenuItem newAction = new JMenuItem("New");
 		JMenuItem openAction = new JMenuItem("Open");
 		JMenuItem saveAction = new JMenuItem("Save");
@@ -76,6 +82,7 @@ public class Manager extends JFrame implements Serializable {
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
 		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
 		JMenuItem stopAction = new JMenuItem("stop");
+		JMenuItem AboutAction = new JMenuItem("About");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
 		fileMenu.add(newAction);
@@ -86,6 +93,7 @@ public class Manager extends JFrame implements Serializable {
 		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
+		moreMenu.add(AboutAction);
 
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -113,6 +121,16 @@ public class Manager extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO PROPERLY STOP
+
+			}
+		});
+
+		AboutAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog f = new AboutDialog(new JFrame());
+				f.show();
 
 			}
 		});
