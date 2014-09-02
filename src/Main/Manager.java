@@ -1,14 +1,10 @@
 package Main;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,11 +13,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -39,7 +33,6 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
-//TODO debug activation blacklist
 //TODO ask for overrides file confirmation
 //TODO open soft middle screen
 //TODO open about middle soft
@@ -47,10 +40,14 @@ import com.sun.jna.ptr.PointerByReference;
 
 public class Manager extends JFrame implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Manager() {
 		super("Chrono Code");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				getClass().getResource("/img/icon.png")));
+
 		apperence();
 		control();
 
@@ -107,12 +104,10 @@ public class Manager extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 
 				session.resetProcessList(BlacklistMenuChkBox.isSelected());
-				jComboBoxListProcess.removeAll();
-				jComboBoxListProcess = new JComboBox<>();
 
-				populateJComboBoxListProcess();
-				jComboBoxListProcess.revalidate();
-
+				jComboBoxListProcess.setModel(new DefaultComboBoxModel(session
+						.getAllProccess().toArray()));
+				Manager.this.pack();
 			}
 		});
 
@@ -292,7 +287,7 @@ public class Manager extends JFrame implements Serializable {
 
 		this.add(this.mainJPanel);
 
-		this.jComboBoxListProcess = new JComboBox();
+		this.jComboBoxListProcess = new JComboBox<String>();
 		this.mainJPanel.add(this.jComboBoxListProcess, "North");
 
 		// this.mainJPanel.add(Box.createHorizontalGlue(), "North");
@@ -312,6 +307,9 @@ public class Manager extends JFrame implements Serializable {
 		this.bVBoxCenter = Box.createVerticalBox();
 
 		this.mainJPanel.add(this.bVBoxCenter);
+
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				getClass().getResource("/img/icon.png")));
 
 		this.setVisible(true);
 
