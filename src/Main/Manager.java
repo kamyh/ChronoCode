@@ -168,7 +168,7 @@ public class Manager extends JFrame implements Serializable {
 			}
 		});
 
-		saveAction.addActionListener(new ActionListener() {
+		saveAsAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Specify a file to save");
@@ -187,6 +187,15 @@ public class Manager extends JFrame implements Serializable {
 			}
 		});
 
+		saveAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				System.out.println(Manager.this.session.getSavePath());
+//				save(Manager.this.session.getSavePath());
+
+			}
+		});
+
 		openAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -198,6 +207,7 @@ public class Manager extends JFrame implements Serializable {
 				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(Manager.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					Manager.this.session.setSavePath(chooser.getSelectedFile().getPath());
 					load(chooser.getSelectedFile().getName());
 				}
 

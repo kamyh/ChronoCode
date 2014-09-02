@@ -101,8 +101,17 @@ public class Session implements Serializable {
 		this.allProccess = pL.getProcessList();
 	}
 
+	public synchronized String getSavePath() {
+		return Session.savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		Session.savePath = new String(savePath);
+	}
+
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	private ArrayList<String> allProccess = new ArrayList<String>();
 	private int totTime = 0;
+	private static String savePath = "./save.chco";
 
 }
