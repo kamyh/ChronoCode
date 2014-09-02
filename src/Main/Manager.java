@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -34,8 +35,6 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
 //TODO ask for overrides file confirmation
-//TODO open soft middle screen
-//TODO open about middle soft
 //TODO improve aboutDialog
 
 public class Manager extends JFrame implements Serializable {
@@ -100,6 +99,7 @@ public class Manager extends JFrame implements Serializable {
 
 		BlacklistMenuChkBox.addActionListener(new ActionListener() {
 
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -125,7 +125,8 @@ public class Manager extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JDialog f = new AboutDialog(new JFrame());
-				f.show();
+				f.setVisible(true);
+				;
 
 			}
 		});
@@ -279,6 +280,12 @@ public class Manager extends JFrame implements Serializable {
 		w.write("Total Elapsed Time " + totFullTime + " sec");
 	}
 
+	private void softInMiddle(JFrame frame) {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height
+				/ 2 - frame.getSize().height / 2);
+	}
+
 	private void apperence() {
 
 		this.mainBorderLayout = new BorderLayout();
@@ -302,14 +309,14 @@ public class Manager extends JFrame implements Serializable {
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 
-		this.comboBoxWatchingProcess = new JComboBox();
-
 		this.bVBoxCenter = Box.createVerticalBox();
 
 		this.mainJPanel.add(this.bVBoxCenter);
 
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				getClass().getResource("/img/icon.png")));
+
+		softInMiddle(this);
 
 		this.setVisible(true);
 
@@ -322,14 +329,15 @@ public class Manager extends JFrame implements Serializable {
 		final String name = name1;
 
 		Label lName = new Label("Name: " + name1);
-		Label lElapsedTime = new Label("Elapsed Time: " + 0);
+		// Label lElapsedTime = new Label("Elapsed Time: " + 0);
 		JButton btnRemoveLine = new JButton("Remove");
 
 		btnRemoveLine.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				newLine.hide();
+				newLine.setVisible(false);
+				;
 				session.removeTask(name);
 				;
 				pack();
@@ -478,7 +486,7 @@ public class Manager extends JFrame implements Serializable {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Manager m = new Manager();
+		new Manager();
 
 	}
 
@@ -490,12 +498,10 @@ public class Manager extends JFrame implements Serializable {
 	JMenuBar menuBar;
 	private BorderLayout mainBorderLayout;
 	private JPanel mainJPanel;
-	private JComboBox jComboBoxListProcess;
+	private JComboBox<String> jComboBoxListProcess;
 	private Box bVBoxNorth;
 	private JButton btnAddTask;
 	private Box bVBoxCenter;
-	private JComboBox comboBoxWatchingProcess;
-	private JButton btnRemove;
 	private Task currentTask = null;
 	private JCheckBoxMenuItem BlacklistMenuChkBox;
 

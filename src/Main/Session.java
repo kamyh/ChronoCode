@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Session implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Session(boolean b) {
 
 		init(b);
@@ -16,6 +20,7 @@ public class Session implements Serializable {
 		System.out.println(this.allProccess);
 	}
 
+	@SuppressWarnings("unused")
 	private void initWithoutGUI() {
 		Task task_1 = new Task();
 		task_1.setName("Eclipse");

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public class Task implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Task() {
 		this.setElapsedTime(0);
 		this.baseName = "";

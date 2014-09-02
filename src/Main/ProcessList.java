@@ -52,7 +52,7 @@ public class ProcessList {
 		}
 
 		// remove duplicates in arrayList
-		HashSet hs = new HashSet();
+		HashSet<String> hs = new HashSet<String>();
 		hs.addAll(this.processList);
 		this.processList.clear();
 		this.processList.addAll(hs);
