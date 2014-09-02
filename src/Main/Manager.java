@@ -28,8 +28,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -37,6 +38,8 @@ import com.sun.jna.ptr.PointerByReference;
 
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
+//TODO reset btn to reset all
+//TODO save as..
 
 public class Manager extends JFrame implements Serializable {
 
@@ -81,15 +84,19 @@ public class Manager extends JFrame implements Serializable {
 		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
 		JMenuItem stopAction = new JMenuItem("stop");
 		JMenuItem AboutAction = new JMenuItem("About");
+		JMenuItem resetAction = new JMenuItem("Reset");
+		JMenuItem saveAsAction = new JMenuItem("Save as...");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
+		fileMenu.add(saveAsAction);
 		actionMenu.add(startPauseAction);
 		actionMenu.add(toTXTAction);
 		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
+		OptionsMenu.add(resetAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
 		moreMenu.add(AboutAction);
 
@@ -336,6 +343,8 @@ public class Manager extends JFrame implements Serializable {
 
 	public void addNewLineEntry(String name1) {
 
+		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
+
 		final Box newLine = Box.createHorizontalBox();
 
 		final String name = name1;
@@ -364,6 +373,8 @@ public class Manager extends JFrame implements Serializable {
 		newLine.add(btnRemoveLine);
 
 		this.bVBoxCenter.add(newLine);
+		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
+
 		this.pack();
 	}
 
@@ -511,6 +522,7 @@ public class Manager extends JFrame implements Serializable {
 
 	private void init() {
 		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
+		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		this.jLabelTotTime = new JLabel("Total Time: " + session.getTotTime()
 				+ " s");
