@@ -8,6 +8,7 @@ public class Session implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	public Session(boolean b) {
 
 		init(b);
@@ -86,6 +87,14 @@ public class Session implements Serializable {
 		this.allProccess = allProccess;
 	}
 
+	public int getTotTime() {
+		return totTime;
+	}
+
+	public void setTotTime(int totTime) {
+		this.totTime = totTime;
+	}
+
 	public void resetProcessList(boolean b) {
 		ProcessList pL = new ProcessList(b);
 		pL.init(b);
@@ -94,5 +103,6 @@ public class Session implements Serializable {
 
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	private ArrayList<String> allProccess = new ArrayList<String>();
+	private int totTime = 0;
 
 }

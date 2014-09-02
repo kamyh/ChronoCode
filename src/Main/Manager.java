@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Label;
 import java.awt.Toolkit;
@@ -14,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -52,6 +53,7 @@ public class Manager extends JFrame implements Serializable {
 
 		this.isStart = false;
 		init();
+
 		start();
 		this.pack();
 	}
@@ -297,7 +299,6 @@ public class Manager extends JFrame implements Serializable {
 		this.jComboBoxListProcess = new JComboBox<String>();
 		this.mainJPanel.add(this.jComboBoxListProcess, "North");
 
-		// this.mainJPanel.add(Box.createHorizontalGlue(), "North");
 		this.bVBoxNorth = Box.createHorizontalBox();
 		this.mainJPanel.add(this.bVBoxNorth, "North");
 
@@ -311,6 +312,8 @@ public class Manager extends JFrame implements Serializable {
 
 		this.bVBoxCenter = Box.createVerticalBox();
 
+		putTitleName();
+
 		this.mainJPanel.add(this.bVBoxCenter);
 
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
@@ -318,8 +321,17 @@ public class Manager extends JFrame implements Serializable {
 
 		softInMiddle(this);
 
+		this.bVBoxSouth = Box.createHorizontalBox();
+		this.bVBoxSouth.setBackground(Color.red);
+		this.mainJPanel.add(this.bVBoxSouth, "South");
+
 		this.setVisible(true);
 
+	}
+
+	private void updateLabelTime() {
+		this.jLabelTotTime.setText("Total Time: "
+				+ (session.getTotTime() / 1000) + " s");
 	}
 
 	public void addNewLineEntry(String name1) {
@@ -328,7 +340,7 @@ public class Manager extends JFrame implements Serializable {
 
 		final String name = name1;
 
-		Label lName = new Label("Name: " + name1);
+		Label lName = new Label(name1);
 		// Label lElapsedTime = new Label("Elapsed Time: " + 0);
 		JButton btnRemoveLine = new JButton("Remove");
 
@@ -360,6 +372,7 @@ public class Manager extends JFrame implements Serializable {
 			this.jComboBoxListProcess.addItem(this.session.getAllProccess()
 					.get(i));
 		}
+
 	}
 
 	public void start() {
@@ -418,6 +431,11 @@ public class Manager extends JFrame implements Serializable {
 										.getPeriods()
 										.get(currentTask.getPeriods().size() - 1)
 										.addTime(refreshTime);
+								session.setTotTime(session.getTotTime()
+										+ refreshTime);
+								updateLabelTime();
+								System.out.println("totTime: "
+										+ session.getTotTime());
 							}
 							prevTask = currentTask;
 						} else {
@@ -456,6 +474,8 @@ public class Manager extends JFrame implements Serializable {
 		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
 		this.bVBoxCenter.removeAll();
 
+		putTitleName();
+
 		try {
 			FileInputStream fis = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fis);
@@ -478,10 +498,24 @@ public class Manager extends JFrame implements Serializable {
 		}
 
 		isStart = false;
+		updateLabelTime();
+	}
+
+	private void putTitleName() {
+		Box nameBox = Box.createHorizontalBox();
+		JLabel labelName = new JLabel("Watching Process: ");
+		nameBox.add(labelName);
+		nameBox.add(Box.createHorizontalGlue());
+		this.bVBoxCenter.add(nameBox, "North");
 	}
 
 	private void init() {
 		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
+
+		this.jLabelTotTime = new JLabel("Total Time: " + session.getTotTime()
+				+ " s");
+		this.bVBoxSouth.add(this.jLabelTotTime);
+		updateLabelTime();
 		populateJComboBoxListProcess();
 	}
 
@@ -504,6 +538,8 @@ public class Manager extends JFrame implements Serializable {
 	private Box bVBoxCenter;
 	private Task currentTask = null;
 	private JCheckBoxMenuItem BlacklistMenuChkBox;
+	private Box bVBoxSouth;
+	private JLabel jLabelTotTime;
 
 	static class Psapi {
 		static {
