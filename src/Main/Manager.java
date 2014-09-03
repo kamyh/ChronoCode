@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -31,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -39,7 +42,6 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO reset btn to reset all
-//TODO save as..
 
 public class Manager extends JFrame implements Serializable {
 
@@ -191,7 +193,7 @@ public class Manager extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent arg0) {
 
 				System.out.println(Manager.this.session.getSavePath());
-//				save(Manager.this.session.getSavePath());
+				// save(Manager.this.session.getSavePath());
 
 			}
 		});
@@ -207,7 +209,8 @@ public class Manager extends JFrame implements Serializable {
 				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(Manager.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					Manager.this.session.setSavePath(chooser.getSelectedFile().getPath());
+					Manager.this.session.setSavePath(chooser.getSelectedFile()
+							.getPath());
 					load(chooser.getSelectedFile().getName());
 				}
 
@@ -346,9 +349,20 @@ public class Manager extends JFrame implements Serializable {
 
 	}
 
+	private String formatTime(int seconds) {
+		int day = (int) TimeUnit.SECONDS.toDays(seconds);
+		long hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24);
+		long minute = TimeUnit.SECONDS.toMinutes(seconds)
+				- (TimeUnit.SECONDS.toHours(seconds) * 60);
+		long second = TimeUnit.SECONDS.toSeconds(seconds)
+				- (TimeUnit.SECONDS.toMinutes(seconds) * 60);
+
+		return day + ":" + hours + ":" + minute + ":" + second;
+	}
+
 	private void updateLabelTime() {
 		this.jLabelTotTime.setText("Total Time: "
-				+ (session.getTotTime() / 1000) + " s");
+				+ formatTime(session.getTotTime() / 1000));
 	}
 
 	public void addNewLineEntry(String name1) {

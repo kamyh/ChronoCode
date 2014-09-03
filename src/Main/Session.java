@@ -71,6 +71,13 @@ public class Session implements Serializable {
 		}
 	}
 
+	public void reset() {
+		for (int i = 0; i < this.tasks.size(); i++) {
+			this.tasks.get(i).resetPeriod();
+		}
+		totTime = 0;
+	}
+
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}

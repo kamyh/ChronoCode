@@ -40,6 +40,10 @@ public class Task implements Serializable{
 		}
 		System.out.println("--------");
 	}
+	
+	public void resetPeriod() {
+		this.periods = new ArrayList<Period>();
+	}
 
 	public int getElapsedTime() {
 		return elapsedTime;
@@ -81,5 +85,6 @@ public class Task implements Serializable{
 	private String name;
 	private String baseName;
 	private ArrayList<Period> periods = new ArrayList<Period>();
+	
 
 }
