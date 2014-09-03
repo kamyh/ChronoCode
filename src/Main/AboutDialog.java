@@ -12,13 +12,15 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JDialog
+{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AboutDialog(JFrame parent) {
+	public AboutDialog(JFrame parent)
+	{
 		super(parent, "About Dialog", true);
 
 		JButton btnClose = new JButton("Close");
@@ -37,10 +39,12 @@ public class AboutDialog extends JDialog {
 
 		getContentPane().add(b, "Center");
 
-		btnClose.addActionListener(new ActionListener() {
+		btnClose.addActionListener(new ActionListener()
+		{
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				AboutDialog.this.dispatchEvent(new WindowEvent(
 						AboutDialog.this, WindowEvent.WINDOW_CLOSING));
 				;
@@ -53,14 +57,16 @@ public class AboutDialog extends JDialog {
 		this.pack();
 	}
 
-	private void softInMiddle(AboutDialog aboutDialog) {
+	private void softInMiddle(AboutDialog aboutDialog)
+	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		aboutDialog.setLocation(
 				dim.width / 2 - aboutDialog.getSize().width / 2, dim.height / 2
 						- aboutDialog.getSize().height / 2);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		JDialog f = new AboutDialog(new JFrame());
 		f.setVisible(true);
 	}

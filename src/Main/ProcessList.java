@@ -12,13 +12,16 @@ import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.win32.W32APIOptions;
 import com.sun.jna.Native;
 
-public class ProcessList {
+public class ProcessList
+{
 
-	public ProcessList(boolean blacklistActivated) {
+	public ProcessList(boolean blacklistActivated)
+	{
 		init(blacklistActivated);
 	}
 
-	public void init(boolean blacklistActivated) {
+	public void init(boolean blacklistActivated)
+	{
 		processList = new ArrayList<String>();
 
 		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class,
@@ -32,14 +35,18 @@ public class ProcessList {
 		w.getAllBlackListedProcess();
 		ArrayList<String> blacklist = new ArrayList<String>();
 
-		if (blacklistActivated) {
+		if (blacklistActivated)
+		{
 			blacklist = w.getBlacklist();
 		}
 
-		try {
-			while (kernel32.Process32Next(snapshot, processEntry)) {
+		try
+		{
+			while (kernel32.Process32Next(snapshot, processEntry))
+			{
 				if (!blacklist
-						.contains(Native.toString(processEntry.szExeFile))) {
+						.contains(Native.toString(processEntry.szExeFile)))
+				{
 					this.processList.add(Native
 							.toString(processEntry.szExeFile));
 				}
@@ -47,7 +54,8 @@ public class ProcessList {
 
 		}
 
-		finally {
+		finally
+		{
 			kernel32.CloseHandle(snapshot);
 		}
 
@@ -57,9 +65,11 @@ public class ProcessList {
 		this.processList.clear();
 		this.processList.addAll(hs);
 
-		Collections.sort(this.processList, new Comparator<String>() {
+		Collections.sort(this.processList, new Comparator<String>()
+		{
 			@Override
-			public int compare(String s1, String s2) {
+			public int compare(String s1, String s2)
+			{
 				return s1.compareToIgnoreCase(s2);
 			}
 		});
@@ -67,11 +77,13 @@ public class ProcessList {
 		System.out.println(this.processList);
 	}
 
-	public ArrayList<String> getProcessList() {
+	public ArrayList<String> getProcessList()
+	{
 		return processList;
 	}
 
-	public void setProcessList(ArrayList<String> processList) {
+	public void setProcessList(ArrayList<String> processList)
+	{
 		this.processList = processList;
 	}
 

@@ -8,24 +8,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Writer {
-	public Writer(String path) {
-		
+public class Writer
+{
+	public Writer(String path)
+	{
 		this.path = path;
 		initFile();
 	}
 
-	public Writer() {
+	public Writer()
+	{
 
 	}
 
-	private void initFile() {
-		try {
-
+	private void initFile()
+	{
+		try
+		{
 			File file = new File(this.path);
 
 			// if file doesnt exists, then create it
-			if (!file.exists()) {
+			if (!file.exists())
+			{
 				file.createNewFile();
 			}
 
@@ -36,19 +40,23 @@ public class Writer {
 
 			System.out.println("Logs Created");
 
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public void write(String entry) {
-		try {
+	public void write(String entry)
+	{
+		try
+		{
 
 			// TODO open files explorer
 			File file = new File(this.path);
 
 			// if file doesnt exists, then create it
-			if (!file.exists()) {
+			if (!file.exists())
+			{
 				file.createNewFile();
 			}
 
@@ -57,49 +65,60 @@ public class Writer {
 			bw.write(entry + "\n");
 			bw.close();
 
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public void getAllBlackListedProcess() {
+	public void getAllBlackListedProcess()
+	{
 		BufferedReader br = null;
 
-		try {
+		try
+		{
 
 			String sCurrentLine;
 
 			br = new BufferedReader(new FileReader("./blacklist.txt"));
 
-			while ((sCurrentLine = br.readLine()) != null) {
+			while ((sCurrentLine = br.readLine()) != null)
+			{
 				// System.out.println(sCurrentLine);
 				this.blacklist.add(sCurrentLine);
 			}
 
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		} finally
+		{
+			try
+			{
 				if (br != null)
 					br.close();
-			} catch (IOException ex) {
+			} catch (IOException ex)
+			{
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	public ArrayList<String> getBlacklist() {
+	public ArrayList<String> getBlacklist()
+	{
 		return blacklist;
 	}
 
-	public void setBlacklist(ArrayList<String> blacklist) {
+	public void setBlacklist(ArrayList<String> blacklist)
+	{
 		this.blacklist = blacklist;
 	}
 
 	private String path;
 	private ArrayList<String> blacklist = new ArrayList<String>();
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception
+	{
 		Writer w = new Writer("./test.txt");
 		w.getAllBlackListedProcess();
 		System.out.println(w.getBlacklist());
