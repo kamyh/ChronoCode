@@ -114,6 +114,14 @@ public class Session implements Serializable
 		this.allProccess = allProccess;
 	}
 
+	public void addProcessToBlacklist(String process)
+	{
+		Writer w = new Writer("./blacklist.txt", true);
+
+
+		w.write(process);
+	}
+
 	public int getTotTime()
 	{
 		return totTime;

@@ -117,17 +117,11 @@ public class Manager extends JFrame implements Serializable
 		BlacklistMenuChkBox.addActionListener(new ActionListener()
 		{
 
-			@SuppressWarnings(
-			{ "unchecked", "rawtypes" })
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 
-				session.resetProcessList(BlacklistMenuChkBox.isSelected());
-
-				jComboBoxListProcess.setModel(new DefaultComboBoxModel(session
-						.getAllProccess().toArray()));
-				Manager.this.pack();
+				resetListProcess();
 			}
 		});
 
@@ -262,6 +256,25 @@ public class Manager extends JFrame implements Serializable
 			}
 		});
 
+		this.btnAddToBlacklist.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Manager.this
+						.addToBlacklist((String) Manager.this.jComboBoxListProcess
+								.getSelectedItem());
+			}
+		});
+	}
+
+	protected void addToBlacklist(String selectedItem)
+	{
+		this.session.addProcessToBlacklist(selectedItem);
+		resetListProcess();
+
+		// TODO if ban process in watching --> remove it
 	}
 
 	private String getPathFile()
@@ -287,7 +300,7 @@ public class Manager extends JFrame implements Serializable
 	private void printLogsToTxtDetails()
 	{
 
-		Writer w = new Writer(getPathFile());
+		Writer w = new Writer(getPathFile(), false);
 
 		ArrayList<Task> tasks = this.session.getTasks();
 
@@ -317,7 +330,7 @@ public class Manager extends JFrame implements Serializable
 
 	private void printLogsToTxt()
 	{
-		Writer w = new Writer(getPathFile());
+		Writer w = new Writer(getPathFile(), false);
 
 		ArrayList<Task> tasks = this.session.getTasks();
 
@@ -364,9 +377,11 @@ public class Manager extends JFrame implements Serializable
 		this.mainJPanel.add(this.bVBoxNorth, "North");
 
 		this.btnAddTask = new JButton("Add");
+		this.btnAddToBlacklist = new JButton("Blacklist");
 
 		this.bVBoxNorth.add(this.jComboBoxListProcess);
 		this.bVBoxNorth.add(this.btnAddTask);
+		this.bVBoxNorth.add(this.btnAddToBlacklist);
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
 		this.bVBoxNorth.add(Box.createHorizontalGlue());
@@ -626,6 +641,15 @@ public class Manager extends JFrame implements Serializable
 		populateJComboBoxListProcess();
 	}
 
+	private void resetListProcess()
+	{
+		session.resetProcessList(BlacklistMenuChkBox.isSelected());
+
+		jComboBoxListProcess.setModel(new DefaultComboBoxModel(session
+				.getAllProccess().toArray()));
+		Manager.this.pack();
+	}
+
 	public static void main(String[] args) throws Exception
 	{
 		new Manager();
@@ -643,6 +667,7 @@ public class Manager extends JFrame implements Serializable
 	private JComboBox<String> jComboBoxListProcess;
 	private Box bVBoxNorth;
 	private JButton btnAddTask;
+	private JButton btnAddToBlacklist;
 	private Box bVBoxCenter;
 	private Task currentTask = null;
 	private JCheckBoxMenuItem BlacklistMenuChkBox;

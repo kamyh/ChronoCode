@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class Writer
 {
-	public Writer(String path)
+	public Writer(String path, boolean overrid)
 	{
 		this.path = path;
-		initFile();
+		initFile(overrid);
 	}
 
 	public Writer()
@@ -21,7 +21,7 @@ public class Writer
 
 	}
 
-	private void initFile()
+	private void initFile(boolean overrid)
 	{
 		try
 		{
@@ -33,7 +33,7 @@ public class Writer
 				file.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile(), false);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), overrid);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("");
 			bw.close();
@@ -51,7 +51,6 @@ public class Writer
 		try
 		{
 
-			// TODO open files explorer
 			File file = new File(this.path);
 
 			// if file doesnt exists, then create it
@@ -104,6 +103,14 @@ public class Writer
 		}
 	}
 
+	public static void main(String[] args) throws Exception
+	{
+		Writer w = new Writer("./test.txt", true);
+		w.getAllBlackListedProcess();
+		System.out.println(w.getBlacklist());
+
+	}
+
 	public ArrayList<String> getBlacklist()
 	{
 		return blacklist;
@@ -116,13 +123,5 @@ public class Writer
 
 	private String path;
 	private ArrayList<String> blacklist = new ArrayList<String>();
-
-	public static void main(String[] args) throws Exception
-	{
-		Writer w = new Writer("./test.txt");
-		w.getAllBlackListedProcess();
-		System.out.println(w.getBlacklist());
-
-	}
 
 }

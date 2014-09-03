@@ -1,8 +1,39 @@
 --eclipse.exe--
-Mon Sep 01 19:16:49 CEST 2014 - Mon Sep 01 19:16:49 CEST 2014 | 0 sec
-Total Elapsed Time 0 sec
+Tue Sep 02 13:05:03 CEST 2014 - Tue Sep 02 13:05:03 CEST 2014 | 0 sec
+Tue Sep 02 13:36:31 CEST 2014 - Tue Sep 02 13:36:33 CEST 2014 | 2 sec
+Wed Sep 03 15:49:38 CEST 2014 - Wed Sep 03 15:51:05 CEST 2014 | 87 sec
+Wed Sep 03 15:54:13 CEST 2014 - Wed Sep 03 16:25:50 CEST 2014 | 1896 sec
+Wed Sep 03 16:25:52 CEST 2014 - Wed Sep 03 16:27:02 CEST 2014 | 70 sec
+Wed Sep 03 17:29:27 CEST 2014 - Wed Sep 03 17:29:31 CEST 2014 | 4 sec
+Wed Sep 03 17:29:33 CEST 2014 - Wed Sep 03 17:47:30 CEST 2014 | 1054 sec
+Wed Sep 03 18:26:14 CEST 2014 - Wed Sep 03 18:49:16 CEST 2014 | 344 sec
+Wed Sep 03 18:49:19 CEST 2014 - Wed Sep 03 18:55:05 CEST 2014 | 131 sec
+Wed Sep 03 18:58:19 CEST 2014 - Wed Sep 03 18:58:23 CEST 2014 | 4 sec
+Wed Sep 03 19:12:03 CEST 2014 - Wed Sep 03 19:16:24 CEST 2014 | 258 sec
+Total Elapsed Time 3850 sec
 --javaw.exe--
-Mon Sep 01 19:16:53 CEST 2014 - Mon Sep 01 20:50:18 CEST 2014 | 20 sec
-Total Elapsed Time 20 sec
+Tue Sep 02 13:05:09 CEST 2014 - Tue Sep 02 13:36:31 CEST 2014 | 24 sec
+Tue Sep 02 13:36:33 CEST 2014 - Tue Sep 02 13:50:02 CEST 2014 | 26 sec
+Wed Sep 03 15:19:06 CEST 2014 - Wed Sep 03 15:49:38 CEST 2014 | 281 sec
+Wed Sep 03 15:51:05 CEST 2014 - Wed Sep 03 15:54:13 CEST 2014 | 187 sec
+Wed Sep 03 16:25:50 CEST 2014 - Wed Sep 03 16:25:52 CEST 2014 | 2 sec
+Wed Sep 03 16:27:02 CEST 2014 - Wed Sep 03 17:29:27 CEST 2014 | 1163 sec
+Wed Sep 03 17:29:31 CEST 2014 - Wed Sep 03 17:29:33 CEST 2014 | 2 sec
+Wed Sep 03 17:47:30 CEST 2014 - Wed Sep 03 18:26:14 CEST 2014 | 38 sec
+Wed Sep 03 18:49:16 CEST 2014 - Wed Sep 03 18:49:19 CEST 2014 | 3 sec
+Wed Sep 03 18:55:05 CEST 2014 - Wed Sep 03 18:56:17 CEST 2014 | 12 sec
+Wed Sep 03 18:57:43 CEST 2014 - Wed Sep 03 18:57:47 CEST 2014 | 4 sec
+Wed Sep 03 18:58:14 CEST 2014 - Wed Sep 03 18:58:19 CEST 2014 | 5 sec
+Wed Sep 03 18:58:23 CEST 2014 - Wed Sep 03 19:12:03 CEST 2014 | 819 sec
+Wed Sep 03 19:16:24 CEST 2014 - Wed Sep 03 19:16:30 CEST 2014 | 6 sec
+Total Elapsed Time 2572 sec
+--GitHub.exe--
+Tue Sep 02 13:23:15 CEST 2014 - Tue Sep 02 13:23:15 CEST 2014 | 0 sec
+Wed Sep 03 18:56:17 CEST 2014 - Wed Sep 03 18:57:43 CEST 2014 | 78 sec
+Wed Sep 03 18:57:47 CEST 2014 - Wed Sep 03 18:58:14 CEST 2014 | 27 sec
+Total Elapsed Time 105 sec
+--notepad++.exe--
+Tue Sep 02 13:23:38 CEST 2014 - Tue Sep 02 13:23:38 CEST 2014 | 0 sec
+Total Elapsed Time 0 sec
 ----------------------
-Total Elapsed Time 20 sec
+Total Elapsed Time 6527 sec
