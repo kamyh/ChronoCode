@@ -32,11 +32,12 @@ public class TableLogs extends JFrame
 		JScrollPane jsp = new JScrollPane(this.tabLogs,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		this.tabLogs.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.tabLogs.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		this.add(jsp);
 
 		pack();
+		this.setSize(900, this.getSize().height);
 
 		this.setVisible(true);
 	}
