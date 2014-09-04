@@ -16,7 +16,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -33,7 +32,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -45,10 +43,6 @@ import com.sun.jna.ptr.PointerByReference;
 
 public class Manager extends JFrame implements Serializable
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public Manager()
@@ -69,10 +63,8 @@ public class Manager extends JFrame implements Serializable
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// menuBar
 		this.menuBar = new JMenuBar();
 		this.setJMenuBar(this.menuBar);
-		// Define and add two drop down menu to the menubar
 		JMenu fileMenu = new JMenu("File");
 		JMenu actionMenu = new JMenu("Actions");
 		JMenu OptionsMenu = new JMenu("Options");
@@ -117,7 +109,6 @@ public class Manager extends JFrame implements Serializable
 
 		BlacklistMenuChkBox.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -128,12 +119,10 @@ public class Manager extends JFrame implements Serializable
 
 		stopAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				// TODO PROPERLY STOP
-
 			}
 		});
 
@@ -145,14 +134,11 @@ public class Manager extends JFrame implements Serializable
 			{
 				JDialog f = new AboutDialog(new JFrame());
 				f.setVisible(true);
-				;
-
 			}
 		});
 
 		toTXTDetailsAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -163,7 +149,6 @@ public class Manager extends JFrame implements Serializable
 
 		toTXTAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -181,7 +166,6 @@ public class Manager extends JFrame implements Serializable
 					currentTask.getLastPeriod().setEndDate();
 				}
 				isStart = !isStart;
-
 			}
 		});
 
@@ -202,7 +186,6 @@ public class Manager extends JFrame implements Serializable
 					File fileToSave = fileChooser.getSelectedFile();
 					save(fileToSave.getAbsolutePath());
 				}
-
 			}
 		});
 
@@ -210,10 +193,9 @@ public class Manager extends JFrame implements Serializable
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-
 				System.out.println(Manager.this.session.getSavePath());
+				// TODO
 				// save(Manager.this.session.getSavePath());
-
 			}
 		});
 
@@ -221,7 +203,6 @@ public class Manager extends JFrame implements Serializable
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-
 				JFileChooser chooser = new JFileChooser();
 				chooser.setCurrentDirectory(new File("./"));
 				chooser.setSelectedFile(new File("save.chco"));
@@ -233,13 +214,11 @@ public class Manager extends JFrame implements Serializable
 					Manager.this.session.setSavePath(chooser.getSelectedFile().getPath());
 					load(chooser.getSelectedFile().getName());
 				}
-
 			}
 		});
 
 		this.btnAddTask.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -255,7 +234,6 @@ public class Manager extends JFrame implements Serializable
 
 		this.btnAddToBlacklist.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -265,7 +243,6 @@ public class Manager extends JFrame implements Serializable
 
 		showLogsAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -308,7 +285,6 @@ public class Manager extends JFrame implements Serializable
 
 	private void printLogsToTxtDetails()
 	{
-
 		Writer w = new Writer(getPathFile(), false);
 
 		ArrayList<Task> tasks = this.session.getTasks();
@@ -325,7 +301,6 @@ public class Manager extends JFrame implements Serializable
 				String lineToAdd = periods.get(j).getStartDate().toString() + " - " + periods.get(j).getEndDate().toString() + " | " + periods.get(j).getElapsedTime() / 1000 + " sec";
 				w.write(lineToAdd);
 				totTime += periods.get(j).getElapsedTime() / 1000;
-
 			}
 			w.write("Total Elapsed Time " + totTime + " sec");
 			totFullTime += totTime;
@@ -351,7 +326,6 @@ public class Manager extends JFrame implements Serializable
 			{
 
 				totTime += periods.get(j).getElapsedTime() / 1000;
-
 			}
 			w.write("Total Elapsed Time " + totTime + " sec");
 			totFullTime += totTime;
@@ -368,7 +342,6 @@ public class Manager extends JFrame implements Serializable
 
 	private void apperence()
 	{
-
 		this.mainBorderLayout = new BorderLayout();
 
 		this.mainJPanel = new JPanel(this.mainBorderLayout);
@@ -406,7 +379,6 @@ public class Manager extends JFrame implements Serializable
 		this.mainJPanel.add(this.bVBoxSouth, "South");
 
 		this.setVisible(true);
-
 	}
 
 	private String formatTime(int seconds)
@@ -426,7 +398,6 @@ public class Manager extends JFrame implements Serializable
 
 	public void addNewLineEntry(String name1)
 	{
-
 		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		final Box newLine = Box.createHorizontalBox();
@@ -470,14 +441,12 @@ public class Manager extends JFrame implements Serializable
 		{
 			this.jComboBoxListProcess.addItem(this.session.getAllProccess().get(i));
 		}
-
 	}
 
 	public void start()
 	{
 		threadCheckFocus = new Thread(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -518,7 +487,6 @@ public class Manager extends JFrame implements Serializable
 
 							if (currentTask != null)
 							{
-
 								currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).addTime(refreshTime);
 								session.setTotTime(session.getTotTime() + refreshTime);
 								updateLabelTime();
@@ -543,7 +511,6 @@ public class Manager extends JFrame implements Serializable
 		});
 
 		this.threadCheckFocus.start();
-
 	}
 
 	private void save(String path)
@@ -557,12 +524,12 @@ public class Manager extends JFrame implements Serializable
 
 		} catch (IOException e)
 		{
+
 		}
 	}
 
 	private void load(String path)
 	{
-
 		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
 		this.bVBoxCenter.removeAll();
 
@@ -625,7 +592,6 @@ public class Manager extends JFrame implements Serializable
 	public static void main(String[] args) throws Exception
 	{
 		new Manager();
-
 	}
 
 	private static final int MAX_TITLE_LENGTH = 1024;

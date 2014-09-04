@@ -14,12 +14,8 @@ public class TableLogs extends JFrame
 		this.session = session;
 
 		setTitle("Logs");
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setDatas();
-
-		// getContentPane().add(tabLogs.getTableHeader(), BorderLayout.NORTH);
-		// getContentPane().add(tabLogs, BorderLayout.CENTER);
 
 		JScrollPane jsp = new JScrollPane(this.tabLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.tabLogs.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -74,16 +70,13 @@ public class TableLogs extends JFrame
 		ArrayList<Task> tasks = this.session.getTasks();
 
 		int result = 0;
-		// result = tasks.size();
 
 		for (int i = 0; i < tasks.size(); i++)
 		{
 			ArrayList<Period> periods = tasks.get(i).getPeriods();
 
 			result += periods.size();
-
 		}
-
 		return result;
 	}
 

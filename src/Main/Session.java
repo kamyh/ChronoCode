@@ -5,11 +5,6 @@ import java.util.ArrayList;
 
 public class Session implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	public Session(boolean b)
 	{
 
@@ -152,5 +147,6 @@ public class Session implements Serializable
 	private ArrayList<String> allProccess = new ArrayList<String>();
 	private int totTime = 0;
 	private static String savePath = "./save.chco";
+	private static final long serialVersionUID = 1L;
 
 }

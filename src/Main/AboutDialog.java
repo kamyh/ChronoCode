@@ -47,8 +47,6 @@ public class AboutDialog extends JDialog
 			{
 				AboutDialog.this.dispatchEvent(new WindowEvent(
 						AboutDialog.this, WindowEvent.WINDOW_CLOSING));
-				;
-
 			}
 		});
 

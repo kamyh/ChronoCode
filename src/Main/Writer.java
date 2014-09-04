@@ -50,7 +50,6 @@ public class Writer
 	{
 		try
 		{
-
 			File file = new File(this.path);
 
 			// if file doesnt exists, then create it
@@ -76,7 +75,6 @@ public class Writer
 
 		try
 		{
-
 			String sCurrentLine;
 
 			br = new BufferedReader(new FileReader("./blacklist.txt"));
@@ -108,7 +106,6 @@ public class Writer
 		Writer w = new Writer("./test.txt", true);
 		w.getAllBlackListedProcess();
 		System.out.println(w.getBlacklist());
-
 	}
 
 	public ArrayList<String> getBlacklist()
