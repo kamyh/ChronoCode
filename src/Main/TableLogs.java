@@ -1,21 +1,13 @@
 package Main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class TableLogs extends JFrame
 {
-
-	// TODO IMPROVE
 	public TableLogs(Session session)
 	{
 		super();
@@ -29,9 +21,7 @@ public class TableLogs extends JFrame
 		// getContentPane().add(tabLogs.getTableHeader(), BorderLayout.NORTH);
 		// getContentPane().add(tabLogs, BorderLayout.CENTER);
 
-		JScrollPane jsp = new JScrollPane(this.tabLogs,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane jsp = new JScrollPane(this.tabLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.tabLogs.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		this.add(jsp);
@@ -46,10 +36,8 @@ public class TableLogs extends JFrame
 	{
 		int day = (int) TimeUnit.SECONDS.toDays(seconds);
 		long hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24);
-		long minute = TimeUnit.SECONDS.toMinutes(seconds)
-				- (TimeUnit.SECONDS.toHours(seconds) * 60);
-		long second = TimeUnit.SECONDS.toSeconds(seconds)
-				- (TimeUnit.SECONDS.toMinutes(seconds) * 60);
+		long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds) * 60);
+		long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) * 60);
 
 		return day + ":" + hours + ":" + minute + ":" + second;
 	}

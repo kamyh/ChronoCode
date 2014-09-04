@@ -42,7 +42,6 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO reset btn to reset all
-//TODO blacklist btn after addBtn
 
 public class Manager extends JFrame implements Serializable
 {
@@ -194,8 +193,7 @@ public class Manager extends JFrame implements Serializable
 				fileChooser.setDialogTitle("Specify a file to save");
 				fileChooser.setCurrentDirectory(new File("./"));
 				fileChooser.setSelectedFile(new File("save.chco"));
-				fileChooser.setFileFilter(new FileNameExtensionFilter(
-						"ChronoCode file", "chco"));
+				fileChooser.setFileFilter(new FileNameExtensionFilter("ChronoCode file", "chco"));
 
 				int userSelection = fileChooser.showSaveDialog(Manager.this);
 
@@ -227,14 +225,12 @@ public class Manager extends JFrame implements Serializable
 				JFileChooser chooser = new JFileChooser();
 				chooser.setCurrentDirectory(new File("./"));
 				chooser.setSelectedFile(new File("save.chco"));
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						"ChronoCode file", "chco");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("ChronoCode file", "chco");
 				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(Manager.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					Manager.this.session.setSavePath(chooser.getSelectedFile()
-							.getPath());
+					Manager.this.session.setSavePath(chooser.getSelectedFile().getPath());
 					load(chooser.getSelectedFile().getName());
 				}
 
@@ -247,8 +243,7 @@ public class Manager extends JFrame implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				String baseName = (String) jComboBoxListProcess
-						.getSelectedItem();
+				String baseName = (String) jComboBoxListProcess.getSelectedItem();
 
 				if (!session.isExsitingTask(baseName))
 				{
@@ -264,9 +259,7 @@ public class Manager extends JFrame implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				Manager.this
-						.addToBlacklist((String) Manager.this.jComboBoxListProcess
-								.getSelectedItem());
+				Manager.this.addToBlacklist((String) Manager.this.jComboBoxListProcess.getSelectedItem());
 			}
 		});
 
@@ -295,8 +288,7 @@ public class Manager extends JFrame implements Serializable
 		fileChooser.setDialogTitle("Specify a file to save");
 		fileChooser.setCurrentDirectory(new File("./"));
 		fileChooser.setSelectedFile(new File("logs.txt"));
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Fichier txt",
-				"txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Fichier txt", "txt"));
 
 		int userSelection = fileChooser.showSaveDialog(this);
 
@@ -330,10 +322,7 @@ public class Manager extends JFrame implements Serializable
 			ArrayList<Period> periods = tasks.get(i).getPeriods();
 			for (int j = 0; j < periods.size(); j++)
 			{
-				String lineToAdd = periods.get(j).getStartDate().toString()
-						+ " - " + periods.get(j).getEndDate().toString()
-						+ " | " + periods.get(j).getElapsedTime() / 1000
-						+ " sec";
+				String lineToAdd = periods.get(j).getStartDate().toString() + " - " + periods.get(j).getEndDate().toString() + " | " + periods.get(j).getElapsedTime() / 1000 + " sec";
 				w.write(lineToAdd);
 				totTime += periods.get(j).getElapsedTime() / 1000;
 
@@ -374,8 +363,7 @@ public class Manager extends JFrame implements Serializable
 	private void softInMiddle(JFrame frame)
 	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height
-				/ 2 - frame.getSize().height / 2);
+		frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
 	}
 
 	private void apperence()
@@ -409,8 +397,7 @@ public class Manager extends JFrame implements Serializable
 
 		this.mainJPanel.add(this.bVBoxCenter);
 
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				getClass().getResource("/img/icon.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png")));
 
 		softInMiddle(this);
 
@@ -426,18 +413,15 @@ public class Manager extends JFrame implements Serializable
 	{
 		int day = (int) TimeUnit.SECONDS.toDays(seconds);
 		long hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24);
-		long minute = TimeUnit.SECONDS.toMinutes(seconds)
-				- (TimeUnit.SECONDS.toHours(seconds) * 60);
-		long second = TimeUnit.SECONDS.toSeconds(seconds)
-				- (TimeUnit.SECONDS.toMinutes(seconds) * 60);
+		long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds) * 60);
+		long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) * 60);
 
 		return day + ":" + hours + ":" + minute + ":" + second;
 	}
 
 	private void updateLabelTime()
 	{
-		this.jLabelTotTime.setText("Total Time: "
-				+ formatTime(session.getTotTime() / 1000));
+		this.jLabelTotTime.setText("Total Time: " + formatTime(session.getTotTime() / 1000));
 	}
 
 	public void addNewLineEntry(String name1)
@@ -484,8 +468,7 @@ public class Manager extends JFrame implements Serializable
 	{
 		for (int i = 0; i < this.session.getAllProccess().size(); i++)
 		{
-			this.jComboBoxListProcess.addItem(this.session.getAllProccess()
-					.get(i));
+			this.jComboBoxListProcess.addItem(this.session.getAllProccess().get(i));
 		}
 
 	}
@@ -504,26 +487,18 @@ public class Manager extends JFrame implements Serializable
 					if (isStart)
 					{
 						char[] buffer = new char[MAX_TITLE_LENGTH * 2];
-						User32DLL.GetWindowTextW(
-								User32DLL.GetForegroundWindow(), buffer,
-								MAX_TITLE_LENGTH);
+						User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
 						// System.out.println("Active window title: "
 						// + Native.toString(buffer));
 
 						PointerByReference pointer = new PointerByReference();
-						User32DLL.GetWindowThreadProcessId(
-								User32DLL.GetForegroundWindow(), pointer);
-						Pointer process = Kernel32.OpenProcess(
-								Kernel32.PROCESS_QUERY_INFORMATION
-										| Kernel32.PROCESS_VM_READ, false,
-								pointer.getValue());
-						Psapi.GetModuleBaseNameW(process, null, buffer,
-								MAX_TITLE_LENGTH);
+						User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
+						Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
+						Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
 
 						if (session.isExsitingTask(Native.toString(buffer)))
 						{
-							currentTask = session.getTask(Native
-									.toString(buffer));
+							currentTask = session.getTask(Native.toString(buffer));
 
 							if (prevTask != null)
 							{
@@ -537,30 +512,17 @@ public class Manager extends JFrame implements Serializable
 								}
 							}
 
-							System.out.println("Numbers of periods: "
-									+ currentTask.getPeriods().size());
+							System.out.println("Numbers of periods: " + currentTask.getPeriods().size());
 
-							System.out.println("baseName: "
-									+ currentTask.getBaseName()
-									+ " elapsedTime: "
-									+ currentTask
-											.getPeriods()
-											.get(currentTask.getPeriods()
-													.size() - 1)
-											.getElapsedTime() / 1000);
+							System.out.println("baseName: " + currentTask.getBaseName() + " elapsedTime: " + currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime() / 1000);
 
 							if (currentTask != null)
 							{
 
-								currentTask
-										.getPeriods()
-										.get(currentTask.getPeriods().size() - 1)
-										.addTime(refreshTime);
-								session.setTotTime(session.getTotTime()
-										+ refreshTime);
+								currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).addTime(refreshTime);
+								session.setTotTime(session.getTotTime() + refreshTime);
 								updateLabelTime();
-								System.out.println("totTime: "
-										+ session.getTotTime());
+								System.out.println("totTime: " + session.getTotTime());
 							}
 							prevTask = currentTask;
 						} else
@@ -572,8 +534,7 @@ public class Manager extends JFrame implements Serializable
 							Thread.sleep(refreshTime);
 						} catch (InterruptedException e)
 						{
-							System.err
-									.println("Impossible to sleep. too many noises !");
+							System.err.println("Impossible to sleep. too many noises !");
 							e.printStackTrace();
 						}
 					}
@@ -590,8 +551,7 @@ public class Manager extends JFrame implements Serializable
 		try
 		{
 			// Serialize data object to a file
-			ObjectOutputStream out = new ObjectOutputStream(
-					new FileOutputStream(path));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
 			out.writeObject(this.session);
 			out.close();
 
@@ -616,14 +576,11 @@ public class Manager extends JFrame implements Serializable
 
 			for (int i = 0; i < this.session.getTasks().size(); i++)
 			{
-				System.out
-						.println(this.session.getTasks().get(i).getBaseName());
+				System.out.println(this.session.getTasks().get(i).getBaseName());
 
-				if (this.session.isExsitingTask(this.session.getTasks().get(i)
-						.getBaseName()))
+				if (this.session.isExsitingTask(this.session.getTasks().get(i).getBaseName()))
 				{
-					this.addNewLineEntry(this.session.getTasks().get(i)
-							.getBaseName());
+					this.addNewLineEntry(this.session.getTasks().get(i).getBaseName());
 				}
 			}
 
@@ -651,8 +608,7 @@ public class Manager extends JFrame implements Serializable
 		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
 		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-		this.jLabelTotTime = new JLabel("Total Time: " + session.getTotTime()
-				+ " s");
+		this.jLabelTotTime = new JLabel("Total Time: " + session.getTotTime() + " s");
 		this.bVBoxSouth.add(this.jLabelTotTime);
 		updateLabelTime();
 		populateJComboBoxListProcess();
@@ -662,8 +618,7 @@ public class Manager extends JFrame implements Serializable
 	{
 		session.resetProcessList(BlacklistMenuChkBox.isSelected());
 
-		jComboBoxListProcess.setModel(new DefaultComboBoxModel(session
-				.getAllProccess().toArray()));
+		jComboBoxListProcess.setModel(new DefaultComboBoxModel(session.getAllProccess().toArray()));
 		Manager.this.pack();
 	}
 
@@ -698,8 +653,7 @@ public class Manager extends JFrame implements Serializable
 			Native.register("psapi");
 		}
 
-		public static native int GetModuleBaseNameW(Pointer hProcess,
-				Pointer hmodule, char[] lpBaseName, int size);
+		public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
 	}
 
 	static class Kernel32
@@ -713,8 +667,7 @@ public class Manager extends JFrame implements Serializable
 
 		public static native int GetLastError();
 
-		public static native Pointer OpenProcess(int dwDesiredAccess,
-				boolean bInheritHandle, Pointer pointer);
+		public static native Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, Pointer pointer);
 	}
 
 	static class User32DLL
@@ -724,12 +677,10 @@ public class Manager extends JFrame implements Serializable
 			Native.register("user32");
 		}
 
-		public static native int GetWindowThreadProcessId(HWND hWnd,
-				PointerByReference pref);
+		public static native int GetWindowThreadProcessId(HWND hWnd, PointerByReference pref);
 
 		public static native HWND GetForegroundWindow();
 
-		public static native int GetWindowTextW(HWND hWnd, char[] lpString,
-				int nMaxCount);
+		public static native int GetWindowTextW(HWND hWnd, char[] lpString, int nMaxCount);
 	}
 }
