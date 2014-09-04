@@ -118,7 +118,6 @@ public class Session implements Serializable
 	{
 		Writer w = new Writer("./blacklist.txt", true);
 
-
 		w.write(process);
 	}
 

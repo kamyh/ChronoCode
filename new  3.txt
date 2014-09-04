@@ -60,9 +60,4 @@ vpnagent.exe
 vpnui.exe
 wininit.exe
 winlogon.exe
-wmpnetwk.exeadb.exe
-adb.exe
-cvpnd.exe
-EvtEng.exe
-FwcAgent.exe
-FwcMgmt.exe
+wmpnetwk.exe

@@ -92,6 +92,7 @@ public class Manager extends JFrame implements Serializable
 		JMenuItem AboutAction = new JMenuItem("About");
 		JMenuItem resetAction = new JMenuItem("Reset");
 		JMenuItem saveAsAction = new JMenuItem("Save as...");
+		JMenuItem showLogsAction = new JMenuItem("Show logs");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
 		fileMenu.add(newAction);
@@ -102,6 +103,7 @@ public class Manager extends JFrame implements Serializable
 		actionMenu.add(toTXTAction);
 		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
+		actionMenu.add(showLogsAction);
 		OptionsMenu.add(resetAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
 		moreMenu.add(AboutAction);
@@ -267,6 +269,16 @@ public class Manager extends JFrame implements Serializable
 								.getSelectedItem());
 			}
 		});
+
+		showLogsAction.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Manager.this.displayLogs();
+			}
+		});
 	}
 
 	protected void addToBlacklist(String selectedItem)
@@ -295,6 +307,11 @@ public class Manager extends JFrame implements Serializable
 			return fileToSave.getAbsolutePath();
 		}
 		return null;
+	}
+
+	public void displayLogs()
+	{
+		new TableLogs(this.session);
 	}
 
 	private void printLogsToTxtDetails()
