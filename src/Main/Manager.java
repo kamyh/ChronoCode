@@ -15,7 +15,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -256,7 +259,13 @@ public class Manager extends JFrame implements Serializable
 		this.session.addProcessToBlacklist(selectedItem);
 		resetListProcess();
 
-		// TODO if ban process in watching --> remove it
+		if (this.lineInterfaceItem.keySet().contains(selectedItem))
+		{
+			this.lineInterfaceItem.remove(selectedItem);
+		}
+
+		this.resetItems();
+		this.pack();
 	}
 
 	private String getPathFile()
@@ -432,7 +441,23 @@ public class Manager extends JFrame implements Serializable
 		this.bVBoxCenter.add(newLine);
 		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
 
+		this.lineInterfaceItem.put(name1, newLine);
+
 		this.pack();
+	}
+
+	private void resetItems()
+	{
+		this.bVBoxCenter.removeAll();
+
+		for (String key : this.lineInterfaceItem.keySet())
+		{
+			this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+			this.bVBoxCenter.add(this.lineInterfaceItem.get(key));
+
+			this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
+		}
 	}
 
 	private void populateJComboBoxListProcess()
@@ -611,6 +636,7 @@ public class Manager extends JFrame implements Serializable
 	private JCheckBoxMenuItem BlacklistMenuChkBox;
 	private Box bVBoxSouth;
 	private JLabel jLabelTotTime;
+	HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
 
 	static class Psapi
 	{

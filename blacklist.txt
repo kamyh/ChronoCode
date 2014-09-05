@@ -66,3 +66,6 @@ cvpnd.exe
 EvtEng.exe
 FwcAgent.exe
 FwcMgmt.exe
+HD-LogRotatorService.exe
+HD-UpdaterService.exe
+hkcmd.exe
