@@ -2,6 +2,7 @@ package Main;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Task implements Serializable
 {
@@ -39,6 +40,91 @@ public class Task implements Serializable
 			System.out.println(this.periods.get(i).getStartDate() + " -- " + this.periods.get(i).getEndDate() + " --- " + this.periods.get(i).getElapsedTime() / 1000);
 		}
 		System.out.println("--------");
+	}
+
+	private Boolean compareDateFromString(String s, Date d)
+	{
+		String time = s.split(" ")[3];
+		String monthString = s.split(" ")[1];
+		int month = 0;
+
+		switch (monthString)
+		{
+		case "Jan":
+			month = 1;
+			break;
+		case "Fev":
+			month = 2;
+			break;
+		case "Mar":
+			month = 3;
+			break;
+		case "Avr":
+			month = 4;
+			break;
+		case "Mai":
+			month = 5;
+			break;
+		case "Jun":
+			month = 6;
+			break;
+		case "Jul":
+			month = 7;
+			break;
+		case "Aug":
+			month = 8;
+			break;
+		case "Sep":
+			month = 9;
+			break;
+		case "Oct":
+			month = 10;
+			break;
+		case "Nov":
+			month = 11;
+			break;
+		case "Dec":
+			month = 12;
+			break;
+
+		default:
+			break;
+		}
+
+		int year = Integer.parseInt(s.split(" ")[5]);
+		int day = Integer.parseInt(s.split(" ")[2]);
+		int hours = Integer.parseInt(time.split(":")[0]);
+		int minutes = Integer.parseInt(time.split(":")[1]);
+		int seconds = Integer.parseInt(time.split(":")[2]);
+
+		if ((d.getYear() + 1900) == year && d.getDay() == day && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public Boolean removePeriodFromTo(String start, String end)
+	{
+		for (Period period : this.periods)
+		{
+
+			if (compareDateFromString(start, period.getStartDate()) && compareDateFromString(end, period.getEndDate()))
+			{
+				this.periods.remove(period);
+				System.out.println("FOUND");
+				return true;
+			}
+			else
+			{
+				System.out.println("NOT FOUND");
+			}
+		}
+
+		return false;
 	}
 
 	public void resetPeriod()

@@ -4,8 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -48,9 +52,87 @@ public class JFrameLogsModifier extends JFrame
 		this.jComboBoxTask.addItem("--------");
 	}
 
-	private void control()
+	private void resetJComboBox()
 	{
 
+		jComboBoxPeriod.setModel(new DefaultComboBoxModel());
+		jComboBoxTask.setModel(new DefaultComboBoxModel());
+
+		this.jComboBoxPeriod.addItem("periods");
+		this.jComboBoxPeriod.addItem("--------");
+		this.jComboBoxTask.addItem("Tasks");
+		this.jComboBoxTask.addItem("--------");
+
+		this.populateJCombBox();
+	}
+
+	private void control()
+	{
+		this.btnAddTask.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		this.btnRemoveTask.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		this.btnAddPeriod.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		this.btnRemovePeriod.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String selectedItemTask = (String) jComboBoxPeriod.getSelectedItem();
+
+				if (jComboBoxPeriod.getSelectedIndex() != 0 && jComboBoxPeriod.getSelectedIndex() != 1)
+				{
+					String taskName = selectedItemTask.split(" | ")[0];
+
+					System.out.println(taskName);
+
+					String start = selectedItemTask.split(" | ")[2] + " " + selectedItemTask.split(" | ")[3] + " " + selectedItemTask.split(" | ")[4] + " " + selectedItemTask.split(" | ")[5] + " "
+							+ selectedItemTask.split(" | ")[6] + " " + selectedItemTask.split(" | ")[7];
+
+					System.out.println(start);
+
+					String end = selectedItemTask.split(" | ")[9] + " " + selectedItemTask.split(" | ")[10] + " " + selectedItemTask.split(" | ")[11] + " " + selectedItemTask.split(" | ")[12] + " "
+							+ selectedItemTask.split(" | ")[13] + " " + selectedItemTask.split(" | ")[14];
+
+					System.out.println(end);
+
+					Task t = session.getTask(taskName);
+
+					t.removePeriodFromTo(start, end);
+
+					resetJComboBox();
+				}
+			}
+		});
 	}
 
 	private void apearrences()
@@ -60,17 +142,24 @@ public class JFrameLogsModifier extends JFrame
 		JPanel jP = new JPanel();
 		GridLayout gL = new GridLayout(2, 3);
 
+		JPanel gPJComboBox = new JPanel(new GridLayout(2, 1));
+		JPanel gPButton = new JPanel(new GridLayout(2, 2));
+		JPanel gPAll = new JPanel(new GridLayout(1, 2));
+
+		gPAll.add(gPJComboBox);
+		gPAll.add(gPButton);
+
 		jP.setLayout(gL);
 
-		jP.add(this.jComboBoxTask);
-		jP.add(this.btnAddTask);
-		jP.add(this.btnRemoveTask);
-		jP.add(this.jComboBoxPeriod);
-		jP.add(this.btnAddPeriod);
-		jP.add(this.btnRemovePeriod);
+		gPJComboBox.add(this.jComboBoxTask);
+		gPButton.add(this.btnRemoveTask);
+		gPButton.add(this.btnAddTask);
+		gPJComboBox.add(this.jComboBoxPeriod);
+		gPButton.add(this.btnRemovePeriod);
+		gPButton.add(this.btnAddPeriod);
 
 		this.setLayout(new FlowLayout());
-		this.add(jP);
+		this.add(gPAll);
 
 		this.setVisible(true);
 

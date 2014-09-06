@@ -13,6 +13,7 @@ public class Period implements Serializable
 		System.out.println(this.startDate);
 	}
 
+
 	public void setEndDate()
 	{
 		this.endDate = new Date();
