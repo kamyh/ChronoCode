@@ -10,6 +10,7 @@ public class Task implements Serializable
 		this.setElapsedTime(0);
 		this.baseName = "";
 		this.name = "";
+		this.setWatching(true);
 		newEntry();
 	}
 
@@ -18,6 +19,7 @@ public class Task implements Serializable
 		this.setElapsedTime(0);
 		this.baseName = baseName2;
 		this.name = name2;
+		this.setWatching(true);
 		newEntry();
 	}
 
@@ -89,10 +91,22 @@ public class Task implements Serializable
 		this.periods = periods;
 	}
 
+	public boolean isWatching()
+	{
+		return isWatching;
+	}
+
+	public void setWatching(boolean isWatching)
+	{
+		this.isWatching = isWatching;
+	}
+
 	private int elapsedTime;
 	private String name;
 	private String baseName;
 	private ArrayList<Period> periods = new ArrayList<Period>();
+	private boolean isWatching;
+
 	private static final long serialVersionUID = 1L;
 
 }

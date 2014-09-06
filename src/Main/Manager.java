@@ -43,9 +43,10 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO reset btn to reset all
-//TODO chkBox --> always running
 //TODO check if setEndDate is rightly put at the focus changement
 //TODO find why their are period with 0 time 
+//TODO remove a watching process have to stay in logs
+//TODO page --> remove/add periods/task
 
 public class Manager extends JFrame implements Serializable
 {
@@ -213,7 +214,7 @@ public class Manager extends JFrame implements Serializable
 			{
 				System.out.println(Manager.this.session.getSavePath());
 				// TODO
-				// save(Manager.this.session.getSavePath());
+				save(Manager.this.session.getSavePath());
 			}
 		});
 
@@ -247,6 +248,17 @@ public class Manager extends JFrame implements Serializable
 					addNewLineEntry(baseName);
 					session.addTask(baseName, baseName);
 				}
+				else
+				{
+					Task t = session.getTask(baseName);
+
+					if (!t.isWatching())
+					{
+						t.setWatching(true);
+						addNewLineEntry(baseName);
+					}
+				}
+
 			}
 		});
 
@@ -277,7 +289,7 @@ public class Manager extends JFrame implements Serializable
 			addNewLineEntry("Various");
 		}
 		else
-		{
+		{// TODO chk for remove code lines
 			if (this.alwaysRunMenuChkBox.isSelected())
 			{
 
@@ -461,7 +473,11 @@ public class Manager extends JFrame implements Serializable
 				// TODO remove properly, with the two lines
 				newLine.setVisible(false);
 
-				session.removeTask(name);
+				// session.removeTask(name);
+				lineInterfaceItem.remove(name);
+				session.getTask(name).setWatching(false);
+				// TODO when add task chk if exsisting with isWatching = false
+				// session.removeTaskToWatch(name);
 
 				pack();
 
@@ -582,9 +598,10 @@ public class Manager extends JFrame implements Serializable
 
 				if (prevTask != null)
 				{
-					if (currentTask != prevTask)
+					if (currentTask != prevTask && currentTask.isWatching())
 					{
-						prevTask.getLastPeriod().setEndDate();
+						prevTask.getLastPeriod().setEndDate(); // TODO not here
+																// ???
 						if (currentTask.getPeriods().size() > 0)
 						{
 							currentTask.newEntry();
