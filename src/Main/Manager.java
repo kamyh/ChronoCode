@@ -47,6 +47,7 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO find why their are period with 0 time 
 //TODO remove a watching process have to stay in logs
 //TODO page --> remove/add periods/task
+//TODO class for STRINGS
 
 public class Manager extends JFrame implements Serializable
 {
@@ -91,6 +92,7 @@ public class Manager extends JFrame implements Serializable
 		JMenuItem resetAction = new JMenuItem("Reset");
 		JMenuItem saveAsAction = new JMenuItem("Save as...");
 		JMenuItem showLogsAction = new JMenuItem("Show logs");
+		JMenuItem manualModifAction = new JMenuItem("Manual Modification");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
 		alwaysRunMenuChkBox = new JCheckBoxMenuItem("Always running");
@@ -99,15 +101,29 @@ public class Manager extends JFrame implements Serializable
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
+
 		actionMenu.add(startPauseAction);
 		actionMenu.add(toTXTAction);
 		actionMenu.add(toTXTDetailsAction);
 		actionMenu.add(stopAction);
 		actionMenu.add(showLogsAction);
+		actionMenu.add(manualModifAction);
+
 		OptionsMenu.add(resetAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
 		OptionsMenu.add(alwaysRunMenuChkBox);
+
 		moreMenu.add(AboutAction);
+
+		manualModifAction.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				new JFrameLogsModifier(session);
+			}
+		});
 
 		newAction.addActionListener(new ActionListener()
 		{
