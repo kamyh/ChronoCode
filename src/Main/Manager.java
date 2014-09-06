@@ -43,6 +43,9 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO reset btn to reset all
+//TODO chkBox --> always running
+//TODO check if setEndDate is rightly put at the focus changement
+//TODO find why their are period with 0 time 
 
 public class Manager extends JFrame implements Serializable
 {
@@ -89,6 +92,8 @@ public class Manager extends JFrame implements Serializable
 		JMenuItem showLogsAction = new JMenuItem("Show logs");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
+		alwaysRunMenuChkBox = new JCheckBoxMenuItem("Always running");
+		alwaysRunMenuChkBox.setSelected(false);
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
@@ -100,6 +105,7 @@ public class Manager extends JFrame implements Serializable
 		actionMenu.add(showLogsAction);
 		OptionsMenu.add(resetAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
+		OptionsMenu.add(alwaysRunMenuChkBox);
 		moreMenu.add(AboutAction);
 
 		newAction.addActionListener(new ActionListener()
@@ -115,8 +121,17 @@ public class Manager extends JFrame implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
 				resetListProcess();
+			}
+		});
+
+		this.alwaysRunMenuChkBox.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				setVariousActivityUp();
 			}
 		});
 
@@ -252,6 +267,26 @@ public class Manager extends JFrame implements Serializable
 				Manager.this.displayLogs();
 			}
 		});
+	}
+
+	protected void setVariousActivityUp()
+	{
+		if (!session.isExsitingTask("Various"))
+		{
+			session.addTask("Various", "Various");
+			addNewLineEntry("Various");
+		}
+		else
+		{
+			if (this.alwaysRunMenuChkBox.isSelected())
+			{
+
+			}
+			else
+			{
+
+			}
+		}
 	}
 
 	protected void addToBlacklist(String selectedItem)
@@ -423,10 +458,11 @@ public class Manager extends JFrame implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				// TODO remove properly, with the two lines
 				newLine.setVisible(false);
-				;
+
 				session.removeTask(name);
-				;
+
 				pack();
 
 			}
@@ -480,58 +516,95 @@ public class Manager extends JFrame implements Serializable
 				{
 					if (isStart)
 					{
-						char[] buffer = new char[MAX_TITLE_LENGTH * 2];
-						User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
-						// System.out.println("Active window title: "
-						// + Native.toString(buffer));
-
-						PointerByReference pointer = new PointerByReference();
-						User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
-						Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
-						Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
-
-						if (session.isExsitingTask(Native.toString(buffer)))
+						if (!Manager.this.alwaysRunMenuChkBox.isSelected())
 						{
-							currentTask = session.getTask(Native.toString(buffer));
+							char[] buffer = new char[MAX_TITLE_LENGTH * 2];
+							User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
+							// System.out.println("Active window title: "
+							// + Native.toString(buffer));
 
-							if (prevTask != null)
+							PointerByReference pointer = new PointerByReference();
+							User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
+							Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
+							Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
+
+							if (session.isExsitingTask(Native.toString(buffer)))
 							{
-								if (currentTask != prevTask)
+								prevTask = updateCurrentTask(prevTask, Native.toString(buffer));
+							}
+							else
+							{
+								System.out.println("No task !");
+
+								if (currentTask != null)
 								{
-									prevTask.getLastPeriod().setEndDate();
+									currentTask.getLastPeriod().setEndDate();
 									if (currentTask.getPeriods().size() > 0)
 									{
 										currentTask.newEntry();
 									}
 								}
+
+								currentTask = null;
 							}
-
-							System.out.println("Numbers of periods: " + currentTask.getPeriods().size());
-
-							System.out.println("baseName: " + currentTask.getBaseName() + " elapsedTime: " + currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime() / 1000);
-
-							if (currentTask != null)
+							try
 							{
-								currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).addTime(refreshTime);
-								session.setTotTime(session.getTotTime() + refreshTime);
-								updateLabelTime();
-								System.out.println("totTime: " + session.getTotTime());
+								Thread.sleep(RefreshTime);
+							} catch (InterruptedException e)
+							{
+								System.err.println("Impossible to sleep. too many noises !");
+								e.printStackTrace();
 							}
-							prevTask = currentTask;
-						} else
-						{
-							System.out.println("No task !");
+
 						}
-						try
+						else
 						{
-							Thread.sleep(refreshTime);
-						} catch (InterruptedException e)
-						{
-							System.err.println("Impossible to sleep. too many noises !");
-							e.printStackTrace();
+							// TODO
+
+							prevTask = updateCurrentTask(prevTask, "Various");
+
+							System.out.println("VARIOUS");
+							try
+							{
+								Thread.sleep(RefreshTime);
+							} catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
 						}
 					}
 				}
+			}
+
+			private Task updateCurrentTask(Task prevTask, String taskName)
+			{
+				currentTask = session.getTask(taskName);
+
+				if (prevTask != null)
+				{
+					if (currentTask != prevTask)
+					{
+						prevTask.getLastPeriod().setEndDate();
+						if (currentTask.getPeriods().size() > 0)
+						{
+							currentTask.newEntry();
+						}
+					}
+				}
+
+				System.out.println("Numbers of periods: " + currentTask.getPeriods().size());
+
+				System.out.println("baseName: " + currentTask.getBaseName() + " elapsedTime: " + currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime() / 1000);
+
+				if (currentTask != null)
+				{
+					currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).addTime(RefreshTime);
+					session.setTotTime(session.getTotTime() + RefreshTime);
+					updateLabelTime();
+					System.out.println("totTime: " + session.getTotTime());
+				}
+				prevTask = currentTask;
+				return prevTask;
 			}
 		});
 
@@ -619,8 +692,6 @@ public class Manager extends JFrame implements Serializable
 		new Manager();
 	}
 
-	private static final int MAX_TITLE_LENGTH = 1024;
-	private int refreshTime = 1000;
 	private volatile boolean isStart;
 	private Session session;
 	private Thread threadCheckFocus;
@@ -634,9 +705,13 @@ public class Manager extends JFrame implements Serializable
 	private Box bVBoxCenter;
 	private Task currentTask = null;
 	private JCheckBoxMenuItem BlacklistMenuChkBox;
+	private JCheckBoxMenuItem alwaysRunMenuChkBox;
 	private Box bVBoxSouth;
 	private JLabel jLabelTotTime;
 	HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
+
+	private static final int MAX_TITLE_LENGTH = 1024;
+	private int RefreshTime = 1000;
 
 	static class Psapi
 	{
