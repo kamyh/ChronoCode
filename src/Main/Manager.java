@@ -514,7 +514,7 @@ public class Manager extends JFrame implements Serializable
 		this.pack();
 	}
 
-	private void resetItems()
+	public void resetItems()
 	{
 		this.bVBoxCenter.removeAll();
 
@@ -661,7 +661,7 @@ public class Manager extends JFrame implements Serializable
 
 	private void load(String path)
 	{
-		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
+		this.session = new Session(this.BlacklistMenuChkBox.isSelected(), this);
 		this.bVBoxCenter.removeAll();
 
 		putTitleName();
@@ -703,7 +703,7 @@ public class Manager extends JFrame implements Serializable
 
 	private void init()
 	{
-		this.session = new Session(this.BlacklistMenuChkBox.isSelected());
+		this.session = new Session(this.BlacklistMenuChkBox.isSelected(), this);
 		this.bVBoxCenter.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		this.jLabelTotTime = new JLabel("Total Time: " + session.getTotTime() + " s");
@@ -718,6 +718,17 @@ public class Manager extends JFrame implements Serializable
 
 		jComboBoxListProcess.setModel(new DefaultComboBoxModel(session.getAllProccess().toArray()));
 		Manager.this.pack();
+	}
+
+	public void getTest()
+	{
+		System.out.println("1234");
+	}
+
+	public HashMap<String, Box> getLineInterfaceItem()
+	{
+		System.out.println(this.lineInterfaceItem.keySet());
+		return lineInterfaceItem;
 	}
 
 	public static void main(String[] args) throws Exception
@@ -741,7 +752,7 @@ public class Manager extends JFrame implements Serializable
 	private JCheckBoxMenuItem alwaysRunMenuChkBox;
 	private Box bVBoxSouth;
 	private JLabel jLabelTotTime;
-	HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
+	private HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
 
 	private static final int MAX_TITLE_LENGTH = 1024;
 	private int RefreshTime = 1000;

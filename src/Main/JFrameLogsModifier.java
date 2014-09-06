@@ -85,8 +85,16 @@ public class JFrameLogsModifier extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// TODO Auto-generated method stub
+				String taskNameSelected = (String) jComboBoxTask.getSelectedItem();
 
+				session.getParent().getLineInterfaceItem().remove(taskNameSelected);
+
+				session.removeTask(taskNameSelected);
+
+				resetJComboBox();
+
+				session.getParent().resetItems();
+				session.getParent().pack();
 			}
 		});
 
@@ -198,7 +206,7 @@ public class JFrameLogsModifier extends JFrame
 
 	public static void main(String[] args)
 	{
-		Session s = new Session(true);
+		Session s = new Session(true, new Manager());
 
 		s.addTask("task_1", "task_1");
 		s.addTask("task_2", "task_2");

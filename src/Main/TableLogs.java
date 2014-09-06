@@ -2,6 +2,7 @@ package Main;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -86,6 +87,6 @@ public class TableLogs extends JFrame
 
 	public static void main(String[] args)
 	{
-		new TableLogs(new Session(true)).setVisible(true);
+		new TableLogs(new Session(true, new Manager())).setVisible(true);
 	}
 }

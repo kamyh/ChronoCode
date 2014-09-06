@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class Session implements Serializable
 {
-	public Session(boolean b)
+	public Session(boolean b, Manager manager)
 	{
-
+		this.parent = manager;
 		init(b);
 		// initWithoutGUI();
 	}
@@ -70,7 +70,8 @@ public class Session implements Serializable
 
 	public void removeTask(String s)
 	{
-		this.allProccess.remove(s);
+
+//		this.allProccess.remove(s);
 		for (int i = 0; i < this.tasks.size(); i++)
 		{
 			if (this.tasks.get(i).getBaseName().equals(s))
@@ -78,6 +79,7 @@ public class Session implements Serializable
 				this.tasks.remove(i);
 			}
 		}
+
 	}
 
 	public void reset()
@@ -143,9 +145,16 @@ public class Session implements Serializable
 		Session.savePath = new String(savePath);
 	}
 
+	public Manager getParent()
+	{
+		return this.parent;
+	}
+
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	private ArrayList<String> allProccess = new ArrayList<String>();
 	private int totTime = 0;
+	private Manager parent;
+
 	private static String savePath = "./save.chco";
 	private static final long serialVersionUID = 1L;
 
