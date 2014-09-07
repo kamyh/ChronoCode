@@ -82,7 +82,6 @@ public class Manager extends JFrame
 		JMenuItem startPauseAction = new JMenuItem("Start/Pause");
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
 		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
-		JMenuItem stopAction = new JMenuItem("stop");
 		JMenuItem AboutAction = new JMenuItem("About");
 		JMenuItem resetAction = new JMenuItem("Reset");
 		JMenuItem saveAsAction = new JMenuItem("Save as...");
@@ -90,7 +89,8 @@ public class Manager extends JFrame
 		JMenuItem manualModifAction = new JMenuItem("Manual Modification");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
 		BlacklistMenuChkBox.setSelected(true);
-		alwaysRunMenuChkBox = new JCheckBoxMenuItem("Always running");
+		alwaysRunMenuChkBox = new JCheckBoxMenuItem("Always watching");
+		watchAllMenuChkBox = new JCheckBoxMenuItem("Monitor all processes");
 		alwaysRunMenuChkBox.setSelected(false);
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
@@ -100,13 +100,13 @@ public class Manager extends JFrame
 		actionMenu.add(startPauseAction);
 		actionMenu.add(toTXTAction);
 		actionMenu.add(toTXTDetailsAction);
-		actionMenu.add(stopAction);
 		actionMenu.add(showLogsAction);
 		actionMenu.add(manualModifAction);
 
 		OptionsMenu.add(resetAction);
 		OptionsMenu.add(BlacklistMenuChkBox);
 		OptionsMenu.add(alwaysRunMenuChkBox);
+		OptionsMenu.add(watchAllMenuChkBox);
 
 		moreMenu.add(AboutAction);
 
@@ -144,15 +144,6 @@ public class Manager extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				setVariousActivityUp();
-			}
-		});
-
-		stopAction.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				// TODO PROPERLY STOP
 			}
 		});
 
@@ -549,25 +540,39 @@ public class Manager extends JFrame
 							Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
 							Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
 
-							if (session.isExsitingTask(Native.toString(buffer)))
+							if (!Native.toString(buffer).equals(emptyString))
 							{
-								prevTask = updateCurrentTask(prevTask, Native.toString(buffer));
-							}
-							else
-							{
-								System.out.println("No task !");
 
-								if (currentTask != null)
+								if (watchAllMenuChkBox.isSelected())
 								{
-									System.out.println("1");
-									// currentTask.getLastPeriod().setEndDate();
-									if (currentTask.getPeriods().size() > 0)
+									if (!session.isExsitingTask(Native.toString(buffer)))
 									{
-										currentTask.newEntry();
+										session.addTask(Native.toString(buffer), Native.toString(buffer));
+										addNewLineEntry(Native.toString(buffer));
 									}
 								}
 
-								currentTask = null;
+								if (session.isExsitingTask(Native.toString(buffer)))
+								{
+									prevTask = updateCurrentTask(prevTask, Native.toString(buffer));
+
+								}
+								else
+								{
+									System.out.println("No task !");
+
+									if (currentTask != null)
+									{
+										System.out.println("1");
+										// currentTask.getLastPeriod().setEndDate();
+										if (currentTask.getPeriods().size() > 0)
+										{
+											currentTask.newEntry();
+										}
+									}
+
+									currentTask = null;
+								}
 							}
 							try
 							{
@@ -604,9 +609,7 @@ public class Manager extends JFrame
 				{
 					if (currentTask != prevTask && currentTask.isWatching())
 					{
-						// prevTask.getLastPeriod().setEndDate(); // TODO not
-						// here
-						// ???
+
 						if (currentTask.getPeriods().size() > 0)
 						{
 							currentTask.newEntry();
@@ -749,11 +752,13 @@ public class Manager extends JFrame
 	private Task currentTask = null;
 	private JCheckBoxMenuItem BlacklistMenuChkBox;
 	private JCheckBoxMenuItem alwaysRunMenuChkBox;
+	private JCheckBoxMenuItem watchAllMenuChkBox;
 	private Box bVBoxSouth;
 	private JLabel jLabelTotTime;
 	private HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
 
 	private static final int MAX_TITLE_LENGTH = 1024;
+	private static final String emptyString = new String("");
 	private int RefreshTime = 1000;
 
 	static class Psapi
