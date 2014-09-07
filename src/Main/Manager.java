@@ -45,17 +45,15 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO reset btn to reset all
 //TODO check if setEndDate is rightly put at the focus changement
 //TODO find why their are period with 0 time 
-//TODO remove a watching process have to stay in logs
-//TODO page --> remove/add periods/task
 //TODO class for STRINGS
 
-public class Manager extends JFrame implements Serializable
+public class Manager extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 
 	public Manager()
 	{
-		super("Chrono Code");
+		super(Strings.TITLE_APPLICATION);
 
 		apperence();
 		control();
@@ -228,8 +226,6 @@ public class Manager extends JFrame implements Serializable
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				System.out.println(Manager.this.session.getSavePath());
-				// TODO
 				save(Manager.this.session.getSavePath());
 			}
 		});
@@ -486,17 +482,13 @@ public class Manager extends JFrame implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// TODO remove properly, with the two lines
 				newLine.setVisible(false);
+				// session.getParent().getLineInterfaceItem().remove(name);
+				Manager.this.resetItems();
 
-				// session.removeTask(name);
-				lineInterfaceItem.remove(name);
 				session.getTask(name).setWatching(false);
-				// TODO when add task chk if exsisting with isWatching = false
-				// session.removeTaskToWatch(name);
 
 				pack();
-
 			}
 		});
 
@@ -591,8 +583,6 @@ public class Manager extends JFrame implements Serializable
 						}
 						else
 						{
-							// TODO
-
 							prevTask = updateCurrentTask(prevTask, "Various");
 
 							System.out.println("VARIOUS");
@@ -670,6 +660,7 @@ public class Manager extends JFrame implements Serializable
 		{
 			FileInputStream fis = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fis);
+
 			this.session = (Session) in.readObject();
 
 			for (int i = 0; i < this.session.getTasks().size(); i++)
@@ -685,11 +676,12 @@ public class Manager extends JFrame implements Serializable
 			in.close();
 		} catch (Exception e)
 		{
-			System.out.println(e);
+			System.out.println("Error in read File " + e);
 		}
 
 		isStart = false;
 		updateLabelTime();
+
 	}
 
 	private void putTitleName()
@@ -738,7 +730,7 @@ public class Manager extends JFrame implements Serializable
 
 	private volatile boolean isStart;
 	private Session session;
-	private Thread threadCheckFocus;
+	private transient Thread threadCheckFocus;
 	JMenuBar menuBar;
 	private BorderLayout mainBorderLayout;
 	private JPanel mainJPanel;

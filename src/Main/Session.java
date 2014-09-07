@@ -71,7 +71,7 @@ public class Session implements Serializable
 	public void removeTask(String s)
 	{
 
-//		this.allProccess.remove(s);
+		// this.allProccess.remove(s);
 		for (int i = 0; i < this.tasks.size(); i++)
 		{
 			if (this.tasks.get(i).getBaseName().equals(s))

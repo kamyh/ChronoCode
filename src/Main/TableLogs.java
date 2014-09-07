@@ -1,5 +1,6 @@
 package Main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -7,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class TableLogs extends JFrame
+public class TableLogs extends JFrame implements Serializable
 {
 	public TableLogs(Session session)
 	{

@@ -6,9 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Writer
+public class Writer implements Serializable
 {
 	public Writer(String path, boolean overrid)
 	{
