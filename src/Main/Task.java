@@ -2,6 +2,7 @@ package Main;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Task implements Serializable
@@ -125,6 +126,12 @@ public class Task implements Serializable
 		}
 
 		return false;
+	}
+
+	public void addPeriod(Calendar sDateStart, Calendar sDateEnd, int elapsedTime2)
+	{
+		Period p = new Period(sDateStart, sDateEnd, elapsedTime2);
+		this.periods.add(p);
 	}
 
 	public void resetPeriod()
