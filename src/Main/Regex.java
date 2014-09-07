@@ -36,6 +36,25 @@ class Regex
 		}
 	}
 
+	public static final boolean isElapsedTime(int i)
+	{
+		String txt = Integer.toString(i);
+
+		String re1 = "(\\d+)"; // Integer Number 1
+
+		Pattern p = Pattern.compile(re1, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		Matcher m = p.matcher(txt);
+
+		if (m.find())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		String txt = "Sun Sep 07 14:33:08 CEST 2014";

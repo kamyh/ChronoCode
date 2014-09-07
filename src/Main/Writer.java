@@ -122,4 +122,6 @@ public class Writer implements Serializable
 	private String path;
 	private ArrayList<String> blacklist = new ArrayList<String>();
 
+	private static final long serialVersionUID = 1L;
+
 }

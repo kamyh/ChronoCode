@@ -40,11 +40,6 @@ public class JFrameLogsModifier extends JFrame
 		this.btnRemovePeriod = new JButton("Remove Period");
 		this.jComboBoxTask = new JComboBox<String>();
 		this.jComboBoxPeriod = new JComboBox<String>();
-		this.vBoxMain = Box.createVerticalBox();
-		this.hBoxMenuTask = Box.createHorizontalBox();
-		this.hBoxMenuPeriod = Box.createHorizontalBox();
-
-		this.bLayoutMain = new BorderLayout();
 
 		this.jComboBoxPeriod.addItem("periods");
 		this.jComboBoxPeriod.addItem("--------");
@@ -195,10 +190,6 @@ public class JFrameLogsModifier extends JFrame
 	private JButton btnAddPeriod;
 	private JComboBox<String> jComboBoxTask;
 	private JComboBox<String> jComboBoxPeriod;
-	private Box hBoxMenuTask;
-	private Box hBoxMenuPeriod;
-	private Box vBoxMain;
-	private BorderLayout bLayoutMain;
 	private Session session;
 
 	private static final long serialVersionUID = 1L;

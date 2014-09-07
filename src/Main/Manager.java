@@ -45,7 +45,6 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO reset btn to reset all
 //TODO check if setEndDate is rightly put at the focus changement
 //TODO find why their are period with 0 time 
-//TODO class for STRINGS
 
 public class Manager extends JFrame
 {

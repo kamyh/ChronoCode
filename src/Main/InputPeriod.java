@@ -6,16 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-// TODO to finish
 
 public class InputPeriod extends JFrame implements Serializable
 {
@@ -135,8 +130,6 @@ public class InputPeriod extends JFrame implements Serializable
 
 	private void populateJComboBox()
 	{
-		String item = "";
-
 		for (Task t : this.parent.getTasks())
 		{
 			this.jComboxBoxTasks.addItem(t.getName());

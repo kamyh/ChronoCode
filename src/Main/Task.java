@@ -49,6 +49,8 @@ public class Task implements Serializable
 		String monthString = s.split(" ")[1];
 		int month = 0;
 
+		System.out.println(s + " --- " + d);
+
 		switch (monthString)
 		{
 		case "Jan":
@@ -98,7 +100,7 @@ public class Task implements Serializable
 		int minutes = Integer.parseInt(time.split(":")[1]);
 		int seconds = Integer.parseInt(time.split(":")[2]);
 
-		if ((d.getYear() + 1900) == year && d.getDay() == day && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds)
+		if ((d.getYear() + 1900) == year && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds)
 		{
 			return true;
 		}
