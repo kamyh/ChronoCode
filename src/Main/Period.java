@@ -28,7 +28,7 @@ public class Period implements Serializable
 
 	public void addTime(int time)
 	{
-		this.elapsedTime += time;
+		this.elapsedTime = time;
 	}
 
 	public Date getStartDate()

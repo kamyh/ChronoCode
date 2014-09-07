@@ -42,9 +42,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
-//TODO reset btn to reset all
-//TODO check if setEndDate is rightly put at the focus changement
-//TODO find why their are period with 0 time 
+//TODO DEBUG end Time
 
 public class Manager extends JFrame
 {
@@ -365,9 +363,9 @@ public class Manager extends JFrame
 			ArrayList<Period> periods = tasks.get(i).getPeriods();
 			for (int j = 0; j < periods.size(); j++)
 			{
-				String lineToAdd = periods.get(j).getStartDate().toString() + " - " + periods.get(j).getEndDate().toString() + " | " + periods.get(j).getElapsedTime() / 1000 + " sec";
+				String lineToAdd = periods.get(j).getStartDate().toString() + " - " + periods.get(j).getEndDate().toString() + " | " + periods.get(j).getElapsedTime() + " sec";
 				w.write(lineToAdd);
-				totTime += periods.get(j).getElapsedTime() / 1000;
+				totTime += periods.get(j).getElapsedTime();
 			}
 			w.write("Total Elapsed Time " + totTime + " sec");
 			totFullTime += totTime;
@@ -392,7 +390,7 @@ public class Manager extends JFrame
 			for (int j = 0; j < periods.size(); j++)
 			{
 
-				totTime += periods.get(j).getElapsedTime() / 1000;
+				totTime += periods.get(j).getElapsedTime();
 			}
 			w.write("Total Elapsed Time " + totTime + " sec");
 			totFullTime += totTime;
@@ -460,7 +458,7 @@ public class Manager extends JFrame
 
 	private void updateLabelTime()
 	{
-		this.jLabelTotTime.setText("Total Time: " + formatTime(session.getTotTime() / 1000));
+		this.jLabelTotTime.setText("Total Time: " + formatTime(session.getTotTime()));
 	}
 
 	public void addNewLineEntry(String name1)
@@ -561,7 +559,8 @@ public class Manager extends JFrame
 
 								if (currentTask != null)
 								{
-									currentTask.getLastPeriod().setEndDate();
+									System.out.println("1");
+									// currentTask.getLastPeriod().setEndDate();
 									if (currentTask.getPeriods().size() > 0)
 									{
 										currentTask.newEntry();
@@ -605,8 +604,9 @@ public class Manager extends JFrame
 				{
 					if (currentTask != prevTask && currentTask.isWatching())
 					{
-						prevTask.getLastPeriod().setEndDate(); // TODO not here
-																// ???
+						// prevTask.getLastPeriod().setEndDate(); // TODO not
+						// here
+						// ???
 						if (currentTask.getPeriods().size() > 0)
 						{
 							currentTask.newEntry();
@@ -616,12 +616,20 @@ public class Manager extends JFrame
 
 				System.out.println("Numbers of periods: " + currentTask.getPeriods().size());
 
-				System.out.println("baseName: " + currentTask.getBaseName() + " elapsedTime: " + currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime() / 1000);
+				System.out.println("baseName: " + currentTask.getBaseName() + " elapsedTime: " + currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).getElapsedTime());
 
 				if (currentTask != null)
 				{
-					currentTask.getPeriods().get(currentTask.getPeriods().size() - 1).addTime(RefreshTime);
-					session.setTotTime(session.getTotTime() + RefreshTime);
+					Period p = currentTask.getPeriods().get(currentTask.getPeriods().size() - 1);
+
+					p.setEndDate();
+
+					System.out.println((p.getEndDate().getTime() - p.getStartDate().getTime()) / 1000);
+
+					int elapsedTime = (int) ((p.getEndDate().getTime() - p.getStartDate().getTime()) / 1000);
+					p.addTime(elapsedTime);
+
+					session.setTotTime();
 					updateLabelTime();
 					System.out.println("totTime: " + session.getTotTime());
 				}

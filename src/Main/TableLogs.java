@@ -59,7 +59,7 @@ public class TableLogs extends JFrame implements Serializable
 				data[cursor][0] = tasks.get(i).getBaseName();
 				data[cursor][1] = periods.get(j).getStartDate();
 				data[cursor][2] = periods.get(j).getEndDate();
-				data[cursor][3] = formatTime(periods.get(j).getElapsedTime() / 1000);
+				data[cursor][3] = formatTime(periods.get(j).getElapsedTime());
 				cursor++;
 			}
 		}

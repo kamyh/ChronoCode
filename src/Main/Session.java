@@ -123,8 +123,17 @@ public class Session implements Serializable
 		return totTime;
 	}
 
-	public void setTotTime(int totTime)
+	public void setTotTime()
 	{
+		int totTime = 0;
+
+		for (Task t : this.tasks)
+		{
+			for (Period p : t.getPeriods())
+			{
+				totTime += p.getElapsedTime();
+			}
+		}
 		this.totTime = totTime;
 	}
 
