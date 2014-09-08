@@ -204,8 +204,11 @@ public class Manager extends JFrame
 
 				if (userSelection == JFileChooser.APPROVE_OPTION)
 				{
+
 					File fileToSave = fileChooser.getSelectedFile();
+
 					save(fileToSave.getAbsolutePath());
+
 				}
 			}
 		});
@@ -551,6 +554,9 @@ public class Manager extends JFrame
 										addNewLineEntry(Native.toString(buffer));
 									}
 								}
+
+								
+								System.out.println("TASK: " + Native.toString(buffer));
 
 								if (session.isExsitingTask(Native.toString(buffer)))
 								{
