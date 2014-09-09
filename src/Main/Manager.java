@@ -555,7 +555,6 @@ public class Manager extends JFrame
 									}
 								}
 
-								
 								System.out.println("TASK: " + Native.toString(buffer));
 
 								if (session.isExsitingTask(Native.toString(buffer)))
