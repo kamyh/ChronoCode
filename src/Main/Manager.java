@@ -43,7 +43,8 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO DEBUG end Time
-//todo Debug UI after load session
+//TODO Debug UI after load session
+//TODO avoid saving if playing
 
 public class Manager extends JFrame
 {
@@ -79,13 +80,13 @@ public class Manager extends JFrame
 		menuBar.add(moreMenu);
 		JMenuItem newAction = new JMenuItem("New");
 		JMenuItem openAction = new JMenuItem("Open");
-		JMenuItem saveAction = new JMenuItem("Save");
+		saveAction = new JMenuItem("Save");
 		JMenuItem startPauseAction = new JMenuItem("Start/Pause");
 		JMenuItem toTXTAction = new JMenuItem("logToTxt");
 		JMenuItem toTXTDetailsAction = new JMenuItem("logToTxt details");
 		JMenuItem AboutAction = new JMenuItem("About");
 		JMenuItem resetAction = new JMenuItem("Reset");
-		JMenuItem saveAsAction = new JMenuItem("Save as...");
+		saveAsAction = new JMenuItem("Save as...");
 		JMenuItem showLogsAction = new JMenuItem("Show logs");
 		JMenuItem manualModifAction = new JMenuItem("Manual Modification");
 		BlacklistMenuChkBox = new JCheckBoxMenuItem("Blacklist");
@@ -188,6 +189,17 @@ public class Manager extends JFrame
 					currentTask.getLastPeriod().setEndDate();
 				}
 				isStart = !isStart;
+
+				if (isStart)
+				{
+					saveAction.setEnabled(false);
+					saveAsAction.setEnabled(false);
+				}
+				else
+				{
+					saveAction.setEnabled(true);
+					saveAsAction.setEnabled(true);
+				}
 			}
 		});
 
@@ -687,7 +699,7 @@ public class Manager extends JFrame
 				{
 					this.addNewLineEntry(this.session.getTasks().get(i).getBaseName());
 				}
-				
+
 				this.resetItems();
 			}
 
@@ -764,6 +776,8 @@ public class Manager extends JFrame
 	private Box bVBoxSouth;
 	private JLabel jLabelTotTime;
 	private HashMap<String, Box> lineInterfaceItem = new HashMap<String, Box>();
+	private JMenuItem saveAsAction;
+	private JMenuItem saveAction;
 
 	private static final int MAX_TITLE_LENGTH = 1024;
 	private static final String emptyString = new String("");
