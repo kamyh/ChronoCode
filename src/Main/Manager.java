@@ -43,6 +43,7 @@ import com.sun.jna.ptr.PointerByReference;
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO DEBUG end Time
+//todo Debug UI after load session
 
 public class Manager extends JFrame
 {
@@ -473,8 +474,8 @@ public class Manager extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				newLine.setVisible(false);
-				// session.getParent().getLineInterfaceItem().remove(name);
+				// newLine.setVisible(false);
+				lineInterfaceItem.remove(name);
 				Manager.this.resetItems();
 
 				session.getTask(name).setWatching(false);
@@ -686,6 +687,8 @@ public class Manager extends JFrame
 				{
 					this.addNewLineEntry(this.session.getTasks().get(i).getBaseName());
 				}
+				
+				this.resetItems();
 			}
 
 			in.close();
