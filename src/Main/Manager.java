@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -42,9 +43,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 //TODO ask for overrides file confirmation
 //TODO improve aboutDialog
-//TODO DEBUG end Time
-//TODO Debug UI after load session
-//TODO avoid saving if playing
+//TODO Debug UI after load session (chk if fixes is working) 
 
 public class Manager extends JFrame
 {
@@ -666,10 +665,29 @@ public class Manager extends JFrame
 	{
 		try
 		{
-			// Serialize data object to a file
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
-			out.writeObject(this.session);
-			out.close();
+			int overrid = 1;
+
+			File f = new File(path);
+			if (f.exists() && !f.isDirectory())
+			{
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				overrid = JOptionPane.showConfirmDialog(null, "Would You Like to overrides " + path + " ?", "Warning", dialogButton);
+
+			}
+
+			if (overrid == 0)
+			{
+				// Serialize data object to a file
+				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
+				out.writeObject(this.session);
+				out.close();
+
+				System.out.println("SAVED");
+			}
+			else
+			{
+				System.out.println("NOT SAVED");
+			}
 
 		} catch (IOException e)
 		{
