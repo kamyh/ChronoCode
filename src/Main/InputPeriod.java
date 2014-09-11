@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Calendar;
+
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -141,12 +144,26 @@ public class InputPeriod extends JFrame implements Serializable
 		JPanel jP = new JPanel(new FlowLayout());
 		this.add(jP);
 
-		// TODO put name in top of the txt field
-		// this.jPanelTxtEdit.add(new JLabel("Start Date: "));
-		this.jPanelTxtEdit.add(this.jTxtStart);
-		// this.jPanelTxtEdit.add(new JLabel("End Date: "));
-		this.jPanelTxtEdit.add(this.jTxtEnd);
-		this.jPanelTxtEdit.add(this.jTxtElapsedTime);
+		Box vBoxStart = Box.createVerticalBox();
+		Box vBoxEnd = Box.createVerticalBox();
+		Box vBoxElapsedTime = Box.createVerticalBox();
+
+		JLabel jLabelStart = new JLabel("Start Date: ");
+		JLabel jLabelEnd = new JLabel("End Date: ");
+		JLabel jLabelElapsedTime = new JLabel("Elapsed Time: ");
+
+		vBoxStart.add(jLabelStart);
+		vBoxStart.add(this.jTxtStart);
+
+		vBoxEnd.add(jLabelEnd);
+		vBoxEnd.add(this.jTxtEnd);
+
+		vBoxElapsedTime.add(jLabelElapsedTime);
+		vBoxElapsedTime.add(this.jTxtElapsedTime);
+
+		this.jPanelTxtEdit.add(vBoxStart);
+		this.jPanelTxtEdit.add(vBoxEnd);
+		this.jPanelTxtEdit.add(vBoxElapsedTime);
 
 		jP.add(this.jComboxBoxTasks);
 		jP.add(this.jPanelTxtEdit);
