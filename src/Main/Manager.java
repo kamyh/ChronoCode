@@ -41,7 +41,6 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
-//TODO ask for overrides file confirmation
 //TODO improve aboutDialog
 //TODO Debug UI after load session (chk if fixes is working) 
 
