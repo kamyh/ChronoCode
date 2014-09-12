@@ -347,7 +347,7 @@ public class Manager extends JFrame
 			ArrayList<Period> periods = tasks.get(i).getPeriods();
 			for (int j = 0; j < periods.size(); j++)
 			{
-				String lineToAdd = periods.get(j).getStartDate().toString() + " - " + periods.get(j).getEndDate().toString() + " | " + periods.get(j).getElapsedTime() + " sec";
+				String lineToAdd = periods.get(j).getStartDate().getTime().toString() + " - " + periods.get(j).getEndDate().getTime().toString() + " | " + periods.get(j).getElapsedTime() + " sec";
 				w.write(lineToAdd);
 				totTime += periods.get(j).getElapsedTime();
 			}
