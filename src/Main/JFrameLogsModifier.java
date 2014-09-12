@@ -186,7 +186,7 @@ public class JFrameLogsModifier extends JFrame
 
 			for (Period p : t.getPeriods())
 			{
-				item = t.getName() + " | " + p.getStartDate() + " - " + p.getEndDate() + " | " + p.getElapsedTime();
+				item = t.getName() + " | " + p.getStartDate().getTime() + " - " + p.getEndDate().getTime() + " | " + p.getElapsedTime();
 				this.jComboBoxPeriod.addItem(item);
 			}
 		}

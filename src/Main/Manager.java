@@ -635,9 +635,9 @@ public class Manager extends JFrame
 
 					p.setEndDate();
 
-					System.out.println((p.getEndDate().getTime() - p.getStartDate().getTime()) / 1000);
+					System.out.println((p.getEndDate().getTime().getTime() - p.getStartDate().getTime().getTime()) / 1000);
 
-					int elapsedTime = (int) ((p.getEndDate().getTime() - p.getStartDate().getTime()) / 1000);
+					int elapsedTime = (int) ((p.getEndDate().getTime().getTime() - p.getStartDate().getTime().getTime()) / 1000);
 					p.addTime(elapsedTime);
 
 					session.setTotTime();

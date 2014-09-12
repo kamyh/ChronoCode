@@ -2,7 +2,6 @@ package Main;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Period implements Serializable
 {
@@ -31,9 +30,9 @@ public class Period implements Serializable
 		this.elapsedTime = time;
 	}
 
-	public Date getStartDate()
+	public Calendar getStartDate()
 	{
-		return startDate.getTime();
+		return startDate;
 	}
 
 	public void setStartDate(Calendar startDate)
@@ -41,9 +40,9 @@ public class Period implements Serializable
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate()
+	public Calendar getEndDate()
 	{
-		return endDate.getTime();
+		return endDate;
 	}
 
 	public void setEndDate(Calendar endDate)

@@ -3,7 +3,6 @@ package Main;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Task implements Serializable
 {
@@ -45,13 +44,13 @@ public class Task implements Serializable
 		System.out.println("--------");
 	}
 
-	private Boolean compareDateFromString(String s, Date d)
+	private Boolean compareDateFromString(String s, Calendar d)
 	{
 		String time = s.split(" ")[3];
 		String monthString = s.split(" ")[1];
 		int month = 0;
 
-		System.out.println(s + " --- " + d);
+		System.out.println(s + " --- " + d.getTime());
 
 		switch (monthString)
 		{
@@ -102,7 +101,11 @@ public class Task implements Serializable
 		int minutes = Integer.parseInt(time.split(":")[1]);
 		int seconds = Integer.parseInt(time.split(":")[2]);
 
-		if ((d.getYear() + 1900) == year && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds && day == d.getDate() && month == d.getMonth() + 1)
+		System.out.println(d.get(Calendar.YEAR) + " " + year + " " + d.get(Calendar.HOUR_OF_DAY) + " " + hours + " " + d.get(Calendar.MINUTE) + " " + minutes + " " + d.get(Calendar.SECOND) + " "
+				+ seconds + " " + day + " " + d.get(Calendar.DAY_OF_MONTH) + " " + month + " " + (d.get(Calendar.MONTH) + 1));
+
+		if (d.get(Calendar.YEAR) == year && d.get(Calendar.HOUR_OF_DAY) == hours && d.get(Calendar.MINUTE) == minutes && d.get(Calendar.SECOND) == seconds && day == d.get(Calendar.DAY_OF_MONTH)
+				&& month == d.get(Calendar.MONTH) + 1)
 		{
 			return true;
 		}
