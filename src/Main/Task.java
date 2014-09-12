@@ -29,6 +29,8 @@ public class Task implements Serializable
 	{
 		displayAllPeriods();
 		this.periods.add(new Period());
+
+		System.out.println("New Period Created");
 	}
 
 	public void displayAllPeriods()

@@ -1,18 +1,15 @@
 package Main;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class JFrameLogsModifier extends JFrame
@@ -69,7 +66,19 @@ public class JFrameLogsModifier extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// TODO Auto-generated method stub
+				String taskName = "";
+
+				while (taskName == "")
+				{
+
+					JFrame frame = new JFrame("InputDialog Example #1");
+
+					taskName = JOptionPane.showInputDialog(frame, "What's the task name?");
+				}
+
+				// TODO FINISH IT
+				session.addTask(taskName, taskName);
+				session.getParent().addNewLineEntry(taskName);
 
 			}
 		});
