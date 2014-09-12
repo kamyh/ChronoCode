@@ -16,7 +16,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -34,14 +33,13 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
 //TODO improve aboutDialog
-//TODO Debug UI after load session (chk if fixes is working) 
+//TODO handle catching exceptions
 
 public class Manager extends JFrame
 {
@@ -111,7 +109,6 @@ public class Manager extends JFrame
 
 		manualModifAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -138,7 +135,6 @@ public class Manager extends JFrame
 
 		this.alwaysRunMenuChkBox.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -148,7 +144,6 @@ public class Manager extends JFrame
 
 		AboutAction.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -214,11 +209,9 @@ public class Manager extends JFrame
 
 				if (userSelection == JFileChooser.APPROVE_OPTION)
 				{
-
 					File fileToSave = fileChooser.getSelectedFile();
 
 					save(fileToSave.getAbsolutePath());
-
 				}
 			}
 		});
@@ -301,10 +294,6 @@ public class Manager extends JFrame
 			session.addTask("Various", "Various");
 			addNewLineEntry("Various");
 		}
-		else
-		{
-
-		}
 	}
 
 	protected void addToBlacklist(String selectedItem)
@@ -348,9 +337,7 @@ public class Manager extends JFrame
 	private void printLogsToTxtDetails()
 	{
 		Writer w = new Writer(getPathFile(), false);
-
 		ArrayList<Task> tasks = this.session.getTasks();
-
 		int totFullTime = 0;
 
 		for (int i = 0; i < tasks.size(); i++)
@@ -374,9 +361,7 @@ public class Manager extends JFrame
 	private void printLogsToTxt()
 	{
 		Writer w = new Writer(getPathFile(), false);
-
 		ArrayList<Task> tasks = this.session.getTasks();
-
 		int totFullTime = 0;
 
 		for (int i = 0; i < tasks.size(); i++)
@@ -405,7 +390,6 @@ public class Manager extends JFrame
 	private void apperence()
 	{
 		this.mainBorderLayout = new BorderLayout();
-
 		this.mainJPanel = new JPanel(this.mainBorderLayout);
 
 		this.add(this.mainJPanel);
@@ -467,16 +451,13 @@ public class Manager extends JFrame
 		final String name = name1;
 
 		Label lName = new Label(name1);
-		// Label lElapsedTime = new Label("Elapsed Time: " + 0);
 		JButton btnRemoveLine = new JButton("Remove");
 
 		btnRemoveLine.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// newLine.setVisible(false);
 				lineInterfaceItem.remove(name);
 				Manager.this.resetItems();
 
@@ -487,7 +468,6 @@ public class Manager extends JFrame
 		});
 
 		newLine.add(lName);
-		// newLine.add(lElapsedTime);
 		newLine.add(Box.createHorizontalGlue());
 
 		newLine.add(btnRemoveLine);
@@ -538,8 +518,6 @@ public class Manager extends JFrame
 						{
 							char[] buffer = new char[MAX_TITLE_LENGTH * 2];
 							User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
-							// System.out.println("Active window title: "
-							// + Native.toString(buffer));
 
 							PointerByReference pointer = new PointerByReference();
 							User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
@@ -571,8 +549,6 @@ public class Manager extends JFrame
 
 									if (currentTask != null)
 									{
-										System.out.println("1");
-										// currentTask.getLastPeriod().setEndDate();
 										if (currentTask.getPeriods().size() > 0)
 										{
 											currentTask.newEntry();
@@ -720,7 +696,6 @@ public class Manager extends JFrame
 
 		isStart = false;
 		updateLabelTime();
-
 	}
 
 	private void putTitleName()

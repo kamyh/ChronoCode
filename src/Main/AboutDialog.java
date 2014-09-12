@@ -15,11 +15,6 @@ import javax.swing.JLabel;
 
 public class AboutDialog extends JDialog implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	public AboutDialog(JFrame parent)
 	{
 		super(parent, "About Dialog", true);
@@ -46,8 +41,7 @@ public class AboutDialog extends JDialog implements Serializable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				AboutDialog.this.dispatchEvent(new WindowEvent(
-						AboutDialog.this, WindowEvent.WINDOW_CLOSING));
+				AboutDialog.this.dispatchEvent(new WindowEvent(AboutDialog.this, WindowEvent.WINDOW_CLOSING));
 			}
 		});
 
@@ -59,10 +53,10 @@ public class AboutDialog extends JDialog implements Serializable
 	private void softInMiddle(AboutDialog aboutDialog)
 	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		aboutDialog.setLocation(
-				dim.width / 2 - aboutDialog.getSize().width / 2, dim.height / 2
-						- aboutDialog.getSize().height / 2);
+		aboutDialog.setLocation(dim.width / 2 - aboutDialog.getSize().width / 2, dim.height / 2 - aboutDialog.getSize().height / 2);
 	}
+
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args)
 	{

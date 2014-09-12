@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 
 public class InputPeriod extends JFrame implements Serializable
 {
-
 	public InputPeriod(Session parent)
 	{
 		this.parent = parent;
@@ -47,7 +46,6 @@ public class InputPeriod extends JFrame implements Serializable
 	{
 		this.btnAdd.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -62,7 +60,6 @@ public class InputPeriod extends JFrame implements Serializable
 
 					Task task = InputPeriod.this.parent.getTask(taskSelected);
 					task.addPeriod(stringToDate(sDateStart), stringToDate(sDateEnd), elapsedTime);
-
 				}
 				InputPeriod.this.setVisible(false);
 			}
@@ -197,5 +194,4 @@ public class InputPeriod extends JFrame implements Serializable
 
 		new InputPeriod(s);
 	}
-
 }

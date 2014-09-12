@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 public class JFrameLogsModifier extends JFrame
 {
-
 	public JFrameLogsModifier(Session session)
 	{
 		super();
@@ -46,7 +45,6 @@ public class JFrameLogsModifier extends JFrame
 
 	private void resetJComboBox()
 	{
-
 		jComboBoxPeriod.setModel(new DefaultComboBoxModel<String>());
 		jComboBoxTask.setModel(new DefaultComboBoxModel<String>());
 
@@ -62,7 +60,6 @@ public class JFrameLogsModifier extends JFrame
 	{
 		this.btnAddTask.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -70,22 +67,18 @@ public class JFrameLogsModifier extends JFrame
 
 				while (taskName == "")
 				{
-
 					JFrame frame = new JFrame("InputDialog Example #1");
 
 					taskName = JOptionPane.showInputDialog(frame, "What's the task name?");
 				}
 
-				// TODO FINISH IT
 				session.addTask(taskName, taskName);
 				session.getParent().addNewLineEntry(taskName);
-
 			}
 		});
 
 		this.btnRemoveTask.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -104,7 +97,6 @@ public class JFrameLogsModifier extends JFrame
 
 		this.btnAddPeriod.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -114,7 +106,6 @@ public class JFrameLogsModifier extends JFrame
 
 		this.btnRemovePeriod.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -124,20 +115,13 @@ public class JFrameLogsModifier extends JFrame
 				{
 					String taskName = selectedItemTask.split(" | ")[0];
 
-					System.out.println(taskName);
-
 					String start = selectedItemTask.split(" | ")[2] + " " + selectedItemTask.split(" | ")[3] + " " + selectedItemTask.split(" | ")[4] + " " + selectedItemTask.split(" | ")[5] + " "
 							+ selectedItemTask.split(" | ")[6] + " " + selectedItemTask.split(" | ")[7];
-
-					System.out.println(start);
 
 					String end = selectedItemTask.split(" | ")[9] + " " + selectedItemTask.split(" | ")[10] + " " + selectedItemTask.split(" | ")[11] + " " + selectedItemTask.split(" | ")[12] + " "
 							+ selectedItemTask.split(" | ")[13] + " " + selectedItemTask.split(" | ")[14];
 
-					System.out.println(end);
-
 					Task t = session.getTask(taskName);
-
 					t.removePeriodFromTo(start, end);
 
 					resetJComboBox();
@@ -173,7 +157,6 @@ public class JFrameLogsModifier extends JFrame
 		this.add(gPAll);
 
 		this.setVisible(true);
-
 	}
 
 	private void populateJCombBox()

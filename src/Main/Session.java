@@ -70,8 +70,6 @@ public class Session implements Serializable
 
 	public void removeTask(String s)
 	{
-
-		// this.allProccess.remove(s);
 		for (int i = 0; i < this.tasks.size(); i++)
 		{
 			if (this.tasks.get(i).getBaseName().equals(s))
@@ -79,7 +77,6 @@ public class Session implements Serializable
 				this.tasks.remove(i);
 			}
 		}
-
 	}
 
 	public void reset()
@@ -166,5 +163,4 @@ public class Session implements Serializable
 
 	private static String savePath = "./save.chco";
 	private static final long serialVersionUID = 1L;
-
 }

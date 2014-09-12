@@ -28,8 +28,6 @@ public class Task implements Serializable
 	{
 		displayAllPeriods();
 		this.periods.add(new Period());
-
-		System.out.println("New Period Created");
 	}
 
 	public void displayAllPeriods()
@@ -49,8 +47,6 @@ public class Task implements Serializable
 		String time = s.split(" ")[3];
 		String monthString = s.split(" ")[1];
 		int month = 0;
-
-		System.out.println(s + " --- " + d.getTime());
 
 		switch (monthString)
 		{
@@ -100,9 +96,6 @@ public class Task implements Serializable
 		int hours = Integer.parseInt(time.split(":")[0]);
 		int minutes = Integer.parseInt(time.split(":")[1]);
 		int seconds = Integer.parseInt(time.split(":")[2]);
-
-		System.out.println(d.get(Calendar.YEAR) + " " + year + " " + d.get(Calendar.HOUR_OF_DAY) + " " + hours + " " + d.get(Calendar.MINUTE) + " " + minutes + " " + d.get(Calendar.SECOND) + " "
-				+ seconds + " " + day + " " + d.get(Calendar.DAY_OF_MONTH) + " " + month + " " + (d.get(Calendar.MONTH) + 1));
 
 		if (d.get(Calendar.YEAR) == year && d.get(Calendar.HOUR_OF_DAY) == hours && d.get(Calendar.MINUTE) == minutes && d.get(Calendar.SECOND) == seconds && day == d.get(Calendar.DAY_OF_MONTH)
 				&& month == d.get(Calendar.MONTH) + 1)
@@ -208,5 +201,4 @@ public class Task implements Serializable
 	private boolean isWatching;
 
 	private static final long serialVersionUID = 1L;
-
 }

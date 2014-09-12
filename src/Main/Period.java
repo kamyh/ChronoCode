@@ -64,5 +64,4 @@ public class Period implements Serializable
 	private Calendar endDate;
 	private int elapsedTime = 0;
 	private static final long serialVersionUID = 1L;
-
 }

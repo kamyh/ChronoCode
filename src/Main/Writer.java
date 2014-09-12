@@ -82,7 +82,6 @@ public class Writer implements Serializable
 
 			while ((sCurrentLine = br.readLine()) != null)
 			{
-				// System.out.println(sCurrentLine);
 				this.blacklist.add(sCurrentLine);
 			}
 
@@ -123,5 +122,4 @@ public class Writer implements Serializable
 	private ArrayList<String> blacklist = new ArrayList<String>();
 
 	private static final long serialVersionUID = 1L;
-
 }
