@@ -47,8 +47,8 @@ public class JFrameLogsModifier extends JFrame
 	private void resetJComboBox()
 	{
 
-		jComboBoxPeriod.setModel(new DefaultComboBoxModel());
-		jComboBoxTask.setModel(new DefaultComboBoxModel());
+		jComboBoxPeriod.setModel(new DefaultComboBoxModel<String>());
+		jComboBoxTask.setModel(new DefaultComboBoxModel<String>());
 
 		this.jComboBoxPeriod.addItem("periods");
 		this.jComboBoxPeriod.addItem("--------");

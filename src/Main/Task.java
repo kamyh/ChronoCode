@@ -102,7 +102,7 @@ public class Task implements Serializable
 		int minutes = Integer.parseInt(time.split(":")[1]);
 		int seconds = Integer.parseInt(time.split(":")[2]);
 
-		if ((d.getYear() + 1900) == year && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds)
+		if ((d.getYear() + 1900) == year && d.getHours() == hours && d.getMinutes() == minutes && d.getSeconds() == seconds && day == d.getDate() && month == d.getMonth() + 1)
 		{
 			return true;
 		}

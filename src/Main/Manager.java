@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -301,15 +302,8 @@ public class Manager extends JFrame
 			addNewLineEntry("Various");
 		}
 		else
-		{// TODO chk for remove code lines
-			if (this.alwaysRunMenuChkBox.isSelected())
-			{
+		{
 
-			}
-			else
-			{
-
-			}
 		}
 	}
 
@@ -749,6 +743,8 @@ public class Manager extends JFrame
 		populateJComboBoxListProcess();
 	}
 
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	private void resetListProcess()
 	{
 		session.resetProcessList(BlacklistMenuChkBox.isSelected());
